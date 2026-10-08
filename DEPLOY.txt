@@ -1,0 +1,15 @@
+chat-bridge 目录内容说明
+
+bridge.py            主程序（单文件、Python3 标准库、零依赖）
+                     包含：密码登录 Web UI（多轮聊天/Markdown/文件上传/输入中提示）
+                     Agent API（/api/agent/*：轮询收消息、历史、回复、文件下发、notify 推送）
+README.md            架构/功能/配置/安全说明
+deploy.sh            一键部署脚本（目标服务器 root 运行）
+chat-bridge.service  systemd 单元
+hooks/               Muse 侧轮询脚本 + hook 定义（参考：你的环境如何唤醒 agent）
+
+远端部署（服务器 root）：
+  BRIDGE_PASSWORD=<网页登录密码> BRIDGE_TOKEN=<随机Agent token> bash deploy.sh
+  默认端口 8090，可 BRIDGE_PORT=xxxx 覆盖。服务文件、密码都落在 /opt/chat-bridge。
+  然后把你的域名（如 chat.xxx）指到这台机器（A 记录或 Cloudflare Tunnel 反代 127.0.0.1:8090）。
+  注意：bridge.conf 里的 token/password 是部署时生成的，不包含在本包里。
