@@ -1,1 +1,213 @@
-IyEvdXNyL2Jpbi9lbnYgcHl0aG9uMwoiIiIKZmVpc2h1X2FkYXB0ZXI6IOmjnuS5pumAmumBk+mAgumFjeWZqO+8iGNoYXQtYnJpZGdlIHYzIOWkmumAmumBk+aetuaehO+8iQoK5Y+C6ICDIGh0dHBzOi8vZ2l0aHViLmNvbS9jYWljaGVuZ2xlNjY2L29tcC1mZWlzaHUtbGFyayDnmoTmoLjlv4PmgJ3ot6/vvJoK6aOe5LmmIGJvdCDnlKggV2ViU29ja2V0IOmVv+i/nuaOpeS4u+WKqOWQkeWklui/numjnuS5puacjeWKoeWZqOaUtua2iOaBr++8jOaXoOmcgOWFrOe9kSBJUC/lhaXnq5nnq6/lj6PvvIwK6Z2e5bi46YCC5ZCI5rKZ55uS546v5aKD44CCCgrlt6XkvZzmtYHvvJoKICDmlLbvvJrpo57kuaYgV2ViU29ja2V0IChpbS5tZXNzYWdlLnJlY2VpdmVfdjEpCiAgICAgIOKGkiBQT1NUIHtCUklER0VfVVJMfS9hcGkvY2hhbm5lbC9pbmNvbWluZyB7Y2hhbm5lbDoiZmVpc2h1IiwgY2hhbm5lbF9jdHgsIHRleHR9CiAg5Y+R77ya6L2u6K+iIHtCUklER0VfVVJMfS9hcGkvYWdlbnQvb3V0Ym94P2NoYW5uZWw9ZmVpc2h1JmFmdGVyPTxjdXJzb3I+CiAgICAgIOKGkiDnu4/po57kuaYgQVBJIOWPkeWIsOWvueW6lCBjaGF0IOKGkiDmjqjov5vmuLjmoIcKCumFjee9ru+8iOeOr+Wig+WPmOmHj++8ie+8mgogIEZFSVNIVV9BUFBfSUQgICAgICDpo57kuablvIDmlL7lubPlj7DlupTnlKjnmoQgQXBwIElECiAgRkVJU0hVX0FQUF9TRUNSRVQgIOmjnuS5puW8gOaUvuW5s+WPsOW6lOeUqOeahCBBcHAgU2VjcmV0CiAgQlJJREdFX1VSTCAgICAgICAgIGJyaWRnZS5weSDlnLDlnYDvvIzlpoIgaHR0cDovLzEyNy4wLjAuMTo4MDkwCiAgQlJJREdFX1RPS0VOICAgICAgIOS4jiBicmlkZ2UucHkg55u45ZCM55qEIGJlYXJlciB0b2tlbgogIEZFSVNIVV9ET01BSU4gICAgICDpu5jorqQgaHR0cHM6Ly9vcGVuLmZlaXNodS5jbu+8iExhcmsg55SoIGh0dHBzOi8vb3Blbi5sYXJrc3VpdGUuY29t77yJCgrpo57kuablupTnlKjpnIDlvIDpgJrmnYPpmZDvvJppbTptZXNzYWdl77yI5o6l5pS25raI5oGv77yJ44CBaW06bWVzc2FnZTpzZW5kX2FzX2JvdO+8iOWPkea2iOaBr++8ie+8jArkuovku7borqLpmIXpgIki5L2/55So6ZW/6L+e5o6l5o6l5pS25LqL5Lu2IuOAggoK5L6d6LWW77yacGlwIGluc3RhbGwgbGFyay1vYXBp77yI5bu66K6uIHZlbnbvvIkKIiIiCgppbXBvcnQganNvbgppbXBvcnQgbG9nZ2luZwppbXBvcnQgb3MKaW1wb3J0IHN5cwppbXBvcnQgdGhyZWFkaW5nCmltcG9ydCB0aW1lCmltcG9ydCB1cmxsaWIucmVxdWVzdAoKbG9nZ2luZy5iYXNpY0NvbmZpZyhsZXZlbD1sb2dnaW5nLklORk8sCiAgICAgICAgICAgICAgICAgICAgZm9ybWF0PSIlKGFzY3RpbWUpcyBbZmVpc2h1XSAlKGxldmVsbmFtZSlzICUobWVzc2FnZSlzIikKbG9nID0gbG9nZ2luZy5nZXRMb2dnZXIoX19uYW1lX18pCgpBUFBfSUQgPSBvcy5lbnZpcm9uLmdldCgiRkVJU0hVX0FQUF9JRCIsICIiKQpBUFBfU0VDUkVUID0gb3MuZW52aXJvbi5nZXQoIkZFSVNIVV9BUFBfU0VDUkVUIiwgIiIpCkJSSURHRV9VUkwgPSBvcy5lbnZpcm9uLmdldCgiQlJJREdFX1VSTCIsICJodHRwOi8vMTI3LjAuMC4xOjgwOTAiKS5yc3RyaXAoIi8iKQpCUklER0VfVE9LRU4gPSBvcy5lbnZpcm9uLmdldCgiQlJJREdFX1RPS0VOIiwgIiIpCkRPTUFJTiA9IG9zLmVudmlyb24uZ2V0KCJGRUlTSFVfRE9NQUlOIiwgImh0dHBzOi8vb3Blbi5mZWlzaHUuY24iKQoKQ0hBTk5FTCA9ICJmZWlzaHUiCkNVUlNPUl9GSUxFID0gIi9ob21lL2hhdGNoLy5jb25maWcvY2hhdC1icmlkZ2UvZmVpc2h1LWN1cnNvciIKUE9MTF9JTlRFUlZBTCA9IDMKCl9zZWVuX21zZ19pZHMgPSBzZXQoKQoKCmRlZiBicmlkZ2VfYXBpKG1ldGhvZCwgcGF0aCwgYm9keT1Ob25lKToKICAgIHJlcSA9IHVybGxpYi5yZXF1ZXN0LlJlcXVlc3QoCiAgICAgICAgQlJJREdFX1VSTCArIHBhdGgsCiAgICAgICAgZGF0YT1qc29uLmR1bXBzKGJvZHkpLmVuY29kZSgpIGlmIGJvZHkgZWxzZSBOb25lLAogICAgICAgIG1ldGhvZD1tZXRob2QsCiAgICAgICAgaGVhZGVycz17IkF1dGhvcml6YXRpb24iOiBmIkJlYXJlciB7QlJJREdFX1RPS0VOfSIsCiAgICAgICAgICAgICAgICAgIkNvbnRlbnQtVHlwZSI6ICJhcHBsaWNhdGlvbi9qc29uIn0sCiAgICApCiAgICB3aXRoIHVybGxpYi5yZXF1ZXN0LnVybG9wZW4ocmVxLCB0aW1lb3V0PTE1KSBhcyByOgogICAgICAgIHJldHVybiBqc29uLmxvYWRzKHIucmVhZCgpLmRlY29kZSgpKQoKCmRlZiBsb2FkX2N1cnNvcigpOgogICAgdHJ5OgogICAgICAgIHJldHVybiBpbnQob3BlbihDVVJTT1JfRklMRSkucmVhZCgpLnN0cmlwKCkpCiAgICBleGNlcHQgKEZpbGVOb3RGb3VuZEVycm9yLCBWYWx1ZUVycm9yKToKICAgICAgICByZXR1cm4gMAoKCmRlZiBzYXZlX2N1cnNvcihuKToKICAgIHdpdGggb3BlbihDVVJTT1JfRklMRSwgInciKSBhcyBmOgogICAgICAgIGYud3JpdGUoc3RyKG4pKQoKCmRlZiBleHRyYWN0X3RleHQobXNnKToKICAgICIiIuS7jumjnuS5pua2iOaBr+S6i+S7tuaPkOe6r+aWh+acrO+8iOWPquWkhOeQhiB0ZXh0IOexu+Wei++8iSIiIgogICAgdHJ5OgogICAgICAgIGlmIChtc2cubWVzc2FnZV90eXBlIG9yICIiKSAhPSAidGV4dCI6CiAgICAgICAgICAgIHJldHVybiBOb25lCiAgICAgICAgY29udGVudCA9IGpzb24ubG9hZHMobXNnLmNvbnRlbnQgb3IgInt9IikKICAgICAgICB0ZXh0ID0gKGNvbnRlbnQuZ2V0KCJ0ZXh0Iikgb3IgIiIpLnN0cmlwKCkKICAgICAgICAjIOWOu+aOiSBAYm90IOeahCBtZW50aW9uIOaui+eVmQogICAgICAgIHJldHVybiB0ZXh0IG9yIE5vbmUKICAgIGV4Y2VwdCBFeGNlcHRpb246CiAgICAgICAgcmV0dXJuIE5vbmUKCgpkZWYgb25fZmVpc2h1X21lc3NhZ2UoZXZlbnQpOgogICAgIiIiaW0ubWVzc2FnZS5yZWNlaXZlX3YxIOWbnuiwg++8iGxhcmstb2FwaSDmlLbliLDnmoTmmK8gUDJJbU1lc3NhZ2VSZWNlaXZlVjEg5a+56LGh77yJIiIiCiAgICBsb2cuaW5mbygi5pS25Yiw6aOe5Lmm5LqL5Lu25Zue6LCD77yM5byA5aeL5aSE55CGIikKICAgIHRyeToKICAgICAgICBkYXRhID0gZXZlbnQuZXZlbnQKICAgICAgICBtc2cgPSBkYXRhLm1lc3NhZ2UKICAgICAgICBtc2dfaWQgPSBtc2cubWVzc2FnZV9pZCBvciAiIgogICAgICAgIGlmIG1zZ19pZCBpbiBfc2Vlbl9tc2dfaWRzOgogICAgICAgICAgICByZXR1cm4KICAgICAgICBfc2Vlbl9tc2dfaWRzLmFkZChtc2dfaWQpCiAgICAgICAgaWYgbGVuKF9zZWVuX21zZ19pZHMpID4gMTAwMDoKICAgICAgICAgICAgX3NlZW5fbXNnX2lkcy5jbGVhcigpCgogICAgICAgICMg5Y+q5aSE55CG5Y+R57uZIGJvdCDnmoTnp4HogYrvvIzmiJbnvqTph4wgQGJvdCDnmoTmtojmga8KICAgICAgICAjIO+8iOengeiBiiBjaGF0X3R5cGU9cDJw77yb576k6IGK6ZyAIG1lbnRpb24g5omN5aSE55CG77yJCiAgICAgICAgaWYgKG1zZy5jaGF0X3R5cGUgb3IgIiIpICE9ICJwMnAiIGFuZCBub3QgKG1zZy5tZW50aW9ucyBvciBbXSk6CiAgICAgICAgICAgIHJldHVybgoKICAgICAgICB0ZXh0ID0gZXh0cmFjdF90ZXh0KG1zZykKICAgICAgICBpZiBub3QgdGV4dDoKICAgICAgICAgICAgcmV0dXJuCgogICAgICAgIG9wZW5faWQgPSAiIgogICAgICAgIHNlbmRlciA9IGRhdGEuc2VuZGVyCiAgICAgICAgaWYgc2VuZGVyIGlzIG5vdCBOb25lIGFuZCBzZW5kZXIuc2VuZGVyX2lkIGlzIG5vdCBOb25lOgogICAgICAgICAgICBvcGVuX2lkID0gc2VuZGVyLnNlbmRlcl9pZC5vcGVuX2lkIG9yICIiCiAgICAgICAgY3R4ID0gewogICAgICAgICAgICAiY2hhdF9pZCI6IG1zZy5jaGF0X2lkIG9yICIiLAogICAgICAgICAgICAib3Blbl9pZCI6IG9wZW5faWQsCiAgICAgICAgICAgICJtc2dfaWQiOiBtc2dfaWQsCiAgICAgICAgfQogICAgICAgIHIgPSBicmlkZ2VfYXBpKCJQT1NUIiwgIi9hcGkvY2hhbm5lbC9pbmNvbWluZyIsIHsKICAgICAgICAgICAgImNoYW5uZWwiOiBDSEFOTkVMLCAiY2hhbm5lbF9jdHgiOiBjdHgsICJ0ZXh0IjogdGV4dCwKICAgICAgICB9KQogICAgICAgIGxvZy5pbmZvKCLmlLbliLDpo57kuabmtojmga8gaWQ9JXMg5bey5YWl5qGlOiAlcyIsIHIuZ2V0KCJpZCIpLCB0ZXh0Wzo0MF0pCiAgICBleGNlcHQgRXhjZXB0aW9uIGFzIGU6CiAgICAgICAgbG9nLmV4Y2VwdGlvbigi5aSE55CG6aOe5Lmm5raI5oGv5aSx6LSlOiAlcyIsIGUpCgoKZGVmIGZlaXNodV9zZW5kX3RleHQoY2xpZW50LCBjaGF0X2lkLCB0ZXh0KToKICAgICIiIue7j+mjnuS5piBBUEkg5Y+R5paH5pys5raI5oGv77yI6LaF6ZW/5oiq5pat77yJIiIiCiAgICBmcm9tIGxhcmtfb2FwaS5hcGkuaW0udjEgaW1wb3J0ICgKICAgICAgICBDcmVhdGVNZXNzYWdlUmVxdWVzdCwgQ3JlYXRlTWVzc2FnZVJlcXVlc3RCb2R5KQogICAgIyDpo57kuabmlofmnKzmtojmga/kuIrpmZDnuqYgMTUwS0LvvIzov5nph4zkv53lrojmiKrmlq0KICAgIGJvZHkgPSBDcmVhdGVNZXNzYWdlUmVxdWVzdEJvZHkuYnVpbGRlcigpIFwKICAgICAgICAucmVjZWl2ZV9pZChjaGF0X2lkKS5tc2dfdHlwZSgidGV4dCIpIFwKICAgICAgICAuY29udGVudChqc29uLmR1bXBzKHsidGV4dCI6IHRleHRbOjMwMDAwXX0sCiAgICAgICAgICAgICAgICAgICAgICAgICAgICBlbnN1cmVfYXNjaWk9RmFsc2UpKS5idWlsZCgpCiAgICByZXEgPSBDcmVhdGVNZXNzYWdlUmVxdWVzdC5idWlsZGVyKCkgXAogICAgICAgIC5yZWNlaXZlX2lkX3R5cGUoImNoYXRfaWQiKS5yZXF1ZXN0X2JvZHkoYm9keSkuYnVpbGQoKQogICAgcmVzcCA9IGNsaWVudC5pbS52MS5tZXNzYWdlLmNyZWF0ZShyZXEpCiAgICBpZiBub3QgcmVzcC5zdWNjZXNzKCk6CiAgICAgICAgbG9nLndhcm5pbmcoIumjnuS5puWPkemAgeWksei0pTogJXMgJXMiLCByZXNwLmNvZGUsIHJlc3AubXNnKQogICAgICAgIHJldHVybiBGYWxzZQogICAgcmV0dXJuIFRydWUKCgpkZWYgb3V0Ym94X2xvb3AoY2xpZW50KToKICAgICIiIui9ruivoiBicmlkZ2Ug5Y+W5pys5rig6YGT5Zue5aSN77yM5Y+R5Zue6aOe5LmmIiIiCiAgICBjdXJzb3IgPSBsb2FkX2N1cnNvcigpCiAgICB3aGlsZSBUcnVlOgogICAgICAgIHRyeToKICAgICAgICAgICAgciA9IGJyaWRnZV9hcGkoCiAgICAgICAgICAgICAgICAiR0VUIiwgZiIvYXBpL2FnZW50L291dGJveD9jaGFubmVsPXtDSEFOTkVMfSZhZnRlcj17Y3Vyc29yfSIpCiAgICAgICAgICAgIGZvciBtIGluIHIuZ2V0KCJtZXNzYWdlcyIsIFtdKToKICAgICAgICAgICAgICAgIGN0eCA9IG0uZ2V0KCJjaGFubmVsX2N0eCIpIG9yIHt9CiAgICAgICAgICAgICAgICBjaGF0X2lkID0gY3R4LmdldCgiY2hhdF9pZCIsICIiKQogICAgICAgICAgICAgICAgaWYgbm90IGNoYXRfaWQ6CiAgICAgICAgICAgICAgICAgICAgbG9nLndhcm5pbmcoIuWbnuWkjSBpZD0lcyDml6AgY2hhdF9pZO+8jOi3s+i/hyIsIG1bImlkIl0pCiAgICAgICAgICAgICAgICBlbGlmIGZlaXNodV9zZW5kX3RleHQoY2xpZW50LCBjaGF0X2lkLCBtWyJ0ZXh0Il0pOgogICAgICAgICAgICAgICAgICAgIGxvZy5pbmZvKCLlt7Llj5Hlm57po57kuaYgaWQ9JXMgY2hhdD0lcyIsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbVsiaWQiXSwgY2hhdF9pZFs6MTJdKQogICAgICAgICAgICAgICAgY3Vyc29yID0gbWF4KGN1cnNvciwgbVsiaWQiXSkKICAgICAgICAgICAgc2F2ZV9jdXJzb3IoY3Vyc29yKQogICAgICAgIGV4Y2VwdCBFeGNlcHRpb24gYXMgZToKICAgICAgICAgICAgbG9nLndhcm5pbmcoIm91dGJveCDova7or6LlpLHotKU6ICVzIiwgZSkKICAgICAgICB0aW1lLnNsZWVwKFBPTExfSU5URVJWQUwpCgoKZGVmIG1haW4oKToKICAgIGlmIG5vdCBBUFBfSUQgb3Igbm90IEFQUF9TRUNSRVQ6CiAgICAgICAgbG9nLmVycm9yKCLlv4Xpobvorr7nva4gRkVJU0hVX0FQUF9JRCAvIEZFSVNIVV9BUFBfU0VDUkVUIikKICAgICAgICBzeXMuZXhpdCgxKQogICAgaWYgbm90IEJSSURHRV9UT0tFTjoKICAgICAgICBsb2cuZXJyb3IoIuW/hemhu+iuvue9riBCUklER0VfVE9LRU4iKQogICAgICAgIHN5cy5leGl0KDEpCgogICAgaW1wb3J0IGxhcmtfb2FwaSBhcyBsYXJrCiAgICBmcm9tIGxhcmtfb2FwaS53cyBpbXBvcnQgQ2xpZW50IGFzIFdzQ2xpZW50CiAgICBmcm9tIGxhcmtfb2FwaS5ldmVudC5kaXNwYXRjaGVyX2hhbmRsZXIgaW1wb3J0IEV2ZW50RGlzcGF0Y2hlckhhbmRsZXIKCiAgICAjIOaymeebkuW/hemhu+i1sCBlZ3Jlc3Mg5Luj55CG77yaU0RLIOm7mOiupCB3cyDnm7Tov57vvIhwcm94eT1Ob25l77yJ77yM6L+Z6YeMIHBhdGNoIOiuqeWug+i1sOS7o+eQhgogICAgaW1wb3J0IGxhcmtfb2FwaS53cy5jbGllbnQgYXMgX3dzX2NsaWVudF9tb2QKICAgIF9wcm94eV91cmwgPSBvcy5lbnZpcm9uLmdldCgiaHR0cHNfcHJveHkiKSBvciBvcy5lbnZpcm9uLmdldCgiSFRUUFNfUFJPWFkiKSBcCiAgICAgICAgb3Igb3MuZW52aXJvbi5nZXQoImh0dHBfcHJveHkiKSBvciBvcy5lbnZpcm9uLmdldCgiSFRUUF9QUk9YWSIpCiAgICBpZiBfcHJveHlfdXJsOgogICAgICAgIF93c19jbGllbnRfbW9kLl93c19jb25uZWN0X2t3YXJncyA9IGxhbWJkYTogeyJwcm94eSI6IF9wcm94eV91cmx9CiAgICAgICAgbG9nLmluZm8oIldlYlNvY2tldCDlsIbnu4/ku6PnkIbov57mjqUiKQoKICAgICMgQVBJIGNsaWVudO+8iOWPkea2iOaBr+eUqO+8iQogICAgYXBpX2NsaWVudCA9IGxhcmsuQ2xpZW50LmJ1aWxkZXIoKSBcCiAgICAgICAgLmFwcF9pZChBUFBfSUQpLmFwcF9zZWNyZXQoQVBQX1NFQ1JFVCkuZG9tYWluKERPTUFJTikgXAogICAgICAgIC5sb2dfbGV2ZWwobGFyay5Mb2dMZXZlbC5XQVJOSU5HKS5idWlsZCgpCgogICAgIyDkuovku7bliIblj5HvvIhsYXJrLW9hcGkgMS43LjPvvJrnlKggYnVpbGRlciDms6jlhozvvIzlm57osIPnlKjnmoTmmK8gUDJJbU1lc3NhZ2VSZWNlaXZlVjHvvIkKICAgIGhhbmRsZXIgPSBFdmVudERpc3BhdGNoZXJIYW5kbGVyLmJ1aWxkZXIoIiIsICIiKSBcCiAgICAgICAgLnJlZ2lzdGVyX3AyX2ltX21lc3NhZ2VfcmVjZWl2ZV92MShvbl9mZWlzaHVfbWVzc2FnZSkgXAogICAgICAgIC5idWlsZCgpCgogICAgIyBvdXRib3gg5Y+R6YCB57q/56iLCiAgICB0ID0gdGhyZWFkaW5nLlRocmVhZCh0YXJnZXQ9b3V0Ym94X2xvb3AsIGFyZ3M9KGFwaV9jbGllbnQsKSwKICAgICAgICAgICAgICAgICAgICAgICAgIGRhZW1vbj1UcnVlKQogICAgdC5zdGFydCgpCgogICAgIyBXZWJTb2NrZXQg6ZW/6L+e5o6l77yI6Zi75aGe77yJCiAgICBsb2cuaW5mbygi5ZCv5Yqo6aOe5LmmIFdlYlNvY2tldCDplb/ov57mjqXigKYiKQogICAgd3MgPSBXc0NsaWVudChBUFBfSUQsIEFQUF9TRUNSRVQsIGV2ZW50X2hhbmRsZXI9aGFuZGxlciwKICAgICAgICAgICAgICAgICAgZG9tYWluPURPTUFJTiwKICAgICAgICAgICAgICAgICAgbG9nX2xldmVsPWxhcmsuTG9nTGV2ZWwuV0FSTklORykKICAgIHdzLnN0YXJ0KCkKCgppZiBfX25hbWVfXyA9PSAiX19tYWluX18iOgogICAgbWFpbigpCg==
+#!/usr/bin/env python3
+"""
+feishu_adapter: 飞书通道适配器（chat-bridge v3 多通道架构）
+
+参考 https://github.com/caichengle666/omp-feishu-lark 的核心思路：
+飞书 bot 用 WebSocket 长连接主动向外连飞书服务器收消息，无需公网 IP/入站端口，
+非常适合沙盒环境。
+
+工作流：
+  收：飞书 WebSocket (im.message.receive_v1)
+      → POST {BRIDGE_URL}/api/channel/incoming {channel:"feishu", channel_ctx, text}
+  发：轮询 {BRIDGE_URL}/api/agent/outbox?channel=feishu&after=<cursor>
+      → 经飞书 API 发到对应 chat → 推进游标
+
+配置（环境变量）：
+  FEISHU_APP_ID      飞书开放平台应用的 App ID
+  FEISHU_APP_SECRET  飞书开放平台应用的 App Secret
+  BRIDGE_URL         bridge.py 地址，如 http://127.0.0.1:8090
+  BRIDGE_TOKEN       与 bridge.py 相同的 bearer token
+  FEISHU_DOMAIN      默认 https://open.feishu.cn（Lark 用 https://open.larksuite.com）
+
+飞书应用需开通权限：im:message（接收消息）、im:message:send_as_bot（发消息），
+事件订阅选"使用长连接接收事件"。
+
+依赖：pip install lark-oapi（建议 venv）
+"""
+
+import json
+import logging
+import os
+import sys
+import threading
+import time
+import urllib.request
+
+logging.basicConfig(level=logging.INFO,
+                    format="%(asctime)s [feishu] %(levelname)s %(message)s")
+log = logging.getLogger(__name__)
+
+APP_ID = os.environ.get("FEISHU_APP_ID", "")
+APP_SECRET = os.environ.get("FEISHU_APP_SECRET", "")
+BRIDGE_URL = os.environ.get("BRIDGE_URL", "http://127.0.0.1:8090").rstrip("/")
+BRIDGE_TOKEN = os.environ.get("BRIDGE_TOKEN", "")
+DOMAIN = os.environ.get("FEISHU_DOMAIN", "https://open.feishu.cn")
+
+CHANNEL = "feishu"
+CURSOR_FILE = "/home/hatch/.config/chat-bridge/feishu-cursor"
+POLL_INTERVAL = 3
+
+_seen_msg_ids = set()
+
+
+def bridge_api(method, path, body=None):
+    req = urllib.request.Request(
+        BRIDGE_URL + path,
+        data=json.dumps(body).encode() if body else None,
+        method=method,
+        headers={"Authorization": f"Bearer {BRIDGE_TOKEN}",
+                 "Content-Type": "application/json"},
+    )
+    with urllib.request.urlopen(req, timeout=15) as r:
+        return json.loads(r.read().decode())
+
+
+def load_cursor():
+    try:
+        return int(open(CURSOR_FILE).read().strip())
+    except (FileNotFoundError, ValueError):
+        return 0
+
+
+def save_cursor(n):
+    with open(CURSOR_FILE, "w") as f:
+        f.write(str(n))
+
+
+def extract_text(msg):
+    """从飞书消息事件提纯文本（只处理 text 类型）"""
+    try:
+        if (msg.message_type or "") != "text":
+            return None
+        content = json.loads(msg.content or "{}")
+        text = (content.get("text") or "").strip()
+        # 去掉 @bot 的 mention 残留
+        return text or None
+    except Exception:
+        return None
+
+
+def on_feishu_message(event):
+    """im.message.receive_v1 回调（lark-oapi 收到的是 P2ImMessageReceiveV1 对象）"""
+    log.info("收到飞书事件回调，开始处理")
+    try:
+        data = event.event
+        msg = data.message
+        msg_id = msg.message_id or ""
+        if msg_id in _seen_msg_ids:
+            return
+        _seen_msg_ids.add(msg_id)
+        if len(_seen_msg_ids) > 1000:
+            _seen_msg_ids.clear()
+
+        # 只处理发给 bot 的私聊，或群里 @bot 的消息
+        # （私聊 chat_type=p2p；群聊需 mention 才处理）
+        if (msg.chat_type or "") != "p2p" and not (msg.mentions or []):
+            return
+
+        text = extract_text(msg)
+        if not text:
+            return
+
+        open_id = ""
+        sender = data.sender
+        if sender is not None and sender.sender_id is not None:
+            open_id = sender.sender_id.open_id or ""
+        ctx = {
+            "chat_id": msg.chat_id or "",
+            "open_id": open_id,
+            "msg_id": msg_id,
+        }
+        r = bridge_api("POST", "/api/channel/incoming", {
+            "channel": CHANNEL, "channel_ctx": ctx, "text": text,
+        })
+        log.info("收到飞书消息 id=%s 已入桥: %s", r.get("id"), text[:40])
+    except Exception as e:
+        log.exception("处理飞书消息失败: %s", e)
+
+
+def feishu_send_text(client, chat_id, text):
+    """经飞书 API 发文本消息（超长截断）"""
+    from lark_oapi.api.im.v1 import (
+        CreateMessageRequest, CreateMessageRequestBody)
+    # 飞书文本消息上限约 150KB，这里保守截断
+    body = CreateMessageRequestBody.builder() \
+        .receive_id(chat_id).msg_type("text") \
+        .content(json.dumps({"text": text[:30000]},
+                            ensure_ascii=False)).build()
+    req = CreateMessageRequest.builder() \
+        .receive_id_type("chat_id").request_body(body).build()
+    resp = client.im.v1.message.create(req)
+    if not resp.success():
+        log.warning("飞书发送失败: %s %s", resp.code, resp.msg)
+        return False
+    return True
+
+
+def outbox_loop(client):
+    """轮询 bridge 取本渠道回复，发回飞书"""
+    cursor = load_cursor()
+    while True:
+        try:
+            r = bridge_api(
+                "GET", f"/api/agent/outbox?channel={CHANNEL}&after={cursor}")
+            for m in r.get("messages", []):
+                ctx = m.get("channel_ctx") or {}
+                chat_id = ctx.get("chat_id", "")
+                if not chat_id:
+                    log.warning("回复 id=%s 无 chat_id，跳过", m["id"])
+                elif feishu_send_text(client, chat_id, m["text"]):
+                    log.info("已发回飞书 id=%s chat=%s",
+                             m["id"], chat_id[:12])
+                cursor = max(cursor, m["id"])
+            save_cursor(cursor)
+        except Exception as e:
+            log.warning("outbox 轮询失败: %s", e)
+        time.sleep(POLL_INTERVAL)
+
+
+def main():
+    if not APP_ID or not APP_SECRET:
+        log.error("必须设置 FEISHU_APP_ID / FEISHU_APP_SECRET")
+        sys.exit(1)
+    if not BRIDGE_TOKEN:
+        log.error("必须设置 BRIDGE_TOKEN")
+        sys.exit(1)
+
+    import lark_oapi as lark
+    from lark_oapi.ws import Client as WsClient
+    from lark_oapi.event.dispatcher_handler import EventDispatcherHandler
+
+    # 沙盒必须走 egress 代理：SDK 默认 ws 直连（proxy=None），这里 patch 让它走代理
+    import lark_oapi.ws.client as _ws_client_mod
+    _proxy_url = os.environ.get("https_proxy") or os.environ.get("HTTPS_PROXY") \
+        or os.environ.get("http_proxy") or os.environ.get("HTTP_PROXY")
+    if _proxy_url:
+        _ws_client_mod._ws_connect_kwargs = lambda: {"proxy": _proxy_url}
+        log.info("WebSocket 将经代理连接")
+
+    # API client（发消息用）
+    api_client = lark.Client.builder() \
+        .app_id(APP_ID).app_secret(APP_SECRET).domain(DOMAIN) \
+        .log_level(lark.LogLevel.WARNING).build()
+
+    # 事件分发（lark-oapi 1.7.3：用 builder 注册，回调用的是 P2ImMessageReceiveV1）
+    handler = EventDispatcherHandler.builder("", "") \
+        .register_p2_im_message_receive_v1(on_feishu_message) \
+        .build()
+
+    # outbox 发送线程
+    t = threading.Thread(target=outbox_loop, args=(api_client,),
+                         daemon=True)
+    t.start()
+
+    # WebSocket 长连接（阻塞）
+    log.info("启动飞书 WebSocket 长连接…")
+    ws = WsClient(APP_ID, APP_SECRET, event_handler=handler,
+                  domain=DOMAIN,
+                  log_level=lark.LogLevel.WARNING)
+    ws.start()
+
+
+if __name__ == "__main__":
+    main()
