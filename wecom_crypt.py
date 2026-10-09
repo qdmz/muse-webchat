@@ -1,1 +1,83 @@
-IyEvdXNyL2Jpbi9lbnYgcHl0aG9uMwoiIiLkvIHkuJrlvq7kv6Hlm57osIPmtojmga/liqDop6Plr4bvvIhXWEJpek1zZ0NyeXB0IOeyvueugOWunueOsO+8iQoK5Y+q5a6e546wIGJyaWRnZSDpnIDopoHnmoTkuKTku7bkuovvvJoKMS4gdmVyaWZ5X3VybCgpIOKAlCBHRVQg5Zue6LCD6aqM6K+B77ya6aqM562+ICsg6Kej5a+GIGVjaG9zdHIKMi4gZGVjcnlwdF9tc2coKSDigJQgUE9TVCDmtojmga/op6Plr4bvvJrpqoznrb4gKyDop6Plr4YgWE1MIOaYjuaWhwoK566X5rOV5p2l5rqQ77ya5LyB5Lia5b6u5L+h5a6Y5pa5IFdYQml6TXNnQ3J5cHTvvIhTSEExIOWtl+WFuOW6j+mqjOetviArIEFFUy1DQkPvvInjgIIKIiIiCmltcG9ydCBiYXNlNjQKaW1wb3J0IGhhc2hsaWIKaW1wb3J0IHN0cnVjdAppbXBvcnQgeG1sLmV0cmVlLkVsZW1lbnRUcmVlIGFzIEVUCgp0cnk6CiAgICBmcm9tIENyeXB0by5DaXBoZXIgaW1wb3J0IEFFUwpleGNlcHQgSW1wb3J0RXJyb3I6CiAgICBBRVMgPSBOb25lCgoKY2xhc3MgV2VDb21DcnlwdEVycm9yKEV4Y2VwdGlvbik6CiAgICBwYXNzCgoKZGVmIF9zaGExX3NpZ24odG9rZW4sIHRpbWVzdGFtcCwgbm9uY2UsIGVuY3J5cHRlZCk6CiAgICAiIiLlrZflhbjluo/mjpLluo/lkI4gU0hBMSIiIgogICAgbHN0ID0gc29ydGVkKFt0b2tlbiwgdGltZXN0YW1wLCBub25jZSwgZW5jcnlwdGVkXSkKICAgIHJldHVybiBoYXNobGliLnNoYTEoIiIuam9pbihsc3QpLmVuY29kZSgpKS5oZXhkaWdlc3QoKQoKCmRlZiB2ZXJpZnlfc2lnbmF0dXJlKHRva2VuLCB0aW1lc3RhbXAsIG5vbmNlLCBlbmNyeXB0ZWQsIHNpZ25hdHVyZSk6CiAgICByZXR1cm4gX3NoYTFfc2lnbih0b2tlbiwgdGltZXN0YW1wLCBub25jZSwgZW5jcnlwdGVkKSA9PSBzaWduYXR1cmUKCgpkZWYgX2dldF9hZXNfa2V5KGVuY29kaW5nX2Flc19rZXkpOgogICAgaWYgQUVTIGlzIE5vbmU6CiAgICAgICAgcmFpc2UgV2VDb21DcnlwdEVycm9yKCLpnIDopoEgcHljcnlwdG9kb21lOiBwaXAgaW5zdGFsbCBweWNyeXB0b2RvbWUiKQogICAgIyBFbmNvZGluZ0FFU0tleSDmmK8gNDMg5L2N77yM5Y675o6J5pyr5bC+6KGl55qEID0g5ZCOIGJhc2U2NCDop6PnoIHlvpcgMzIg5a2X6IqCCiAgICByZXR1cm4gYmFzZTY0LmI2NGRlY29kZShlbmNvZGluZ19hZXNfa2V5ICsgIj0iKQoKCmRlZiBfcGtjczdfdW5wYWQoZGF0YSk6CiAgICBwYWQgPSBkYXRhWy0xXQogICAgaWYgcGFkIDwgMSBvciBwYWQgPiAzMjoKICAgICAgICByYWlzZSBXZUNvbUNyeXB0RXJyb3IoInBhZGRpbmcg5peg5pWIIikKICAgIHJldHVybiBkYXRhWzotcGFkXQoKCmRlZiBkZWNyeXB0X2VjaG9zdHIoZW5jb2RpbmdfYWVzX2tleSwgZWNob3N0cik6CiAgICAiIiLop6Plr4YgVVJMIOmqjOivgeaXtueahCBlY2hvc3Ry77yM6L+U5Zue5piO5paHIHN0ciIiIgogICAga2V5ID0gX2dldF9hZXNfa2V5KGVuY29kaW5nX2Flc19rZXkpCiAgICBjaXBoZXIgPSBBRVMubmV3KGtleSwgQUVTLk1PREVfQ0JDLCBrZXlbOjE2XSkKICAgIHBsYWluID0gX3BrY3M3X3VucGFkKGNpcGhlci5kZWNyeXB0KGJhc2U2NC5iNjRkZWNvZGUoZWNob3N0cikpKQogICAgIyDnu5PmnoTvvJoxNiDlrZfoioLpmo/mnLogKyA0IOWtl+iKgumVv+W6piArIOa2iOaBryArIGNvcnBfaWQKICAgIG1zZ19sZW4gPSBzdHJ1Y3QudW5wYWNrKCI+SSIsIHBsYWluWzE2OjIwXSlbMF0KICAgIHJldHVybiBwbGFpblsyMDoyMCArIG1zZ19sZW5dLmRlY29kZSgidXRmLTgiKQoKCmRlZiBkZWNyeXB0X21zZyhlbmNvZGluZ19hZXNfa2V5LCBlbmNyeXB0ZWRfeG1sKToKICAgICIiIuino+WvhiBQT1NUIOi/h+adpeeahOa2iOaBryBYTUzvvIzov5Tlm54gKOaYjuaWhyBYTUwgc3RyLCBUb1VzZXJOYW1lKSIiIgogICAga2V5ID0gX2dldF9hZXNfa2V5KGVuY29kaW5nX2Flc19rZXkpCiAgICByb290ID0gRVQuZnJvbXN0cmluZyhlbmNyeXB0ZWRfeG1sKQogICAgZW5jcnlwdGVkID0gcm9vdC5maW5kdGV4dCgiRW5jcnlwdCIpCiAgICBpZiBub3QgZW5jcnlwdGVkOgogICAgICAgIHJhaXNlIFdlQ29tQ3J5cHRFcnJvcigiWE1MIOmHjOayoeaciSBFbmNyeXB0IOiKgueCuSIpCiAgICBjaXBoZXIgPSBBRVMubmV3KGtleSwgQUVTLk1PREVfQ0JDLCBrZXlbOjE2XSkKICAgIHBsYWluID0gX3BrY3M3X3VucGFkKGNpcGhlci5kZWNyeXB0KGJhc2U2NC5iNjRkZWNvZGUoZW5jcnlwdGVkKSkpCiAgICBtc2dfbGVuID0gc3RydWN0LnVucGFjaygiPkkiLCBwbGFpblsxNjoyMF0pWzBdCiAgICBtc2dfeG1sID0gcGxhaW5bMjA6MjAgKyBtc2dfbGVuXS5kZWNvZGUoInV0Zi04IikKICAgIHRvX3VzZXIgPSByb290LmZpbmR0ZXh0KCJUb1VzZXJOYW1lIikgb3IgIiIKICAgIHJldHVybiBtc2dfeG1sLCB0b191c2VyCgoKZGVmIHBhcnNlX3RleHRfbWVzc2FnZShtc2dfeG1sKToKICAgICIiIuS7juino+WvhuWQjueahOa2iOaBryBYTUwg5o+Q57qv5paH5pys44CC5Y+q5aSE55CGIHRleHQg57G75Z6L77yM6L+U5ZueIChmcm9tX3VzZXIsIHRleHQpIiIiCiAgICByb290ID0gRVQuZnJvbXN0cmluZyhtc2dfeG1sKQogICAgaWYgKHJvb3QuZmluZHRleHQoIk1zZ1R5cGUiKSBvciAiIikgIT0gInRleHQiOgogICAgICAgIHJldHVybiBOb25lLCBOb25lCiAgICBmcm9tX3VzZXIgPSByb290LmZpbmR0ZXh0KCJGcm9tVXNlck5hbWUiKSBvciAiIgogICAgIyDkvIHkuJrlvq7kv6Hoh6rlu7rlupTnlKjmlLbliLDnmoTnlKjmiLfmtojmga/vvJpGcm9tVXNlck5hbWUg5piv5oiQ5ZGYIFVzZXJJRAogICAgdGV4dCA9IChyb290LmZpbmR0ZXh0KCJDb250ZW50Iikgb3IgIiIpLnN0cmlwKCkKICAgICMgQWdlbnRJRCDmoKHpqozvvIjlj6/pgInvvInvvJpUb1VzZXJOYW1lIOaYr+S8geS4miBDb3JwSUQKICAgIHJldHVybiBmcm9tX3VzZXIsICh0ZXh0IG9yIE5vbmUpCg==
+#!/usr/bin/env python3
+"""企业微信回调消息加解密（WXBizMsgCrypt 精简实现）
+
+只实现 bridge 需要的两件事：
+1. verify_url() — GET 回调验证：验签 + 解密 echostr
+2. decrypt_msg() — POST 消息解密：验签 + 解密 XML 明文
+
+算法来源：企业微信官方 WXBizMsgCrypt（SHA1 字典序验签 + AES-CBC）。
+"""
+import base64
+import hashlib
+import struct
+import xml.etree.ElementTree as ET
+
+try:
+    from Crypto.Cipher import AES
+except ImportError:
+    AES = None
+
+
+class WeComCryptError(Exception):
+    pass
+
+
+def _sha1_sign(token, timestamp, nonce, encrypted):
+    """字典序排序后 SHA1"""
+    lst = sorted([token, timestamp, nonce, encrypted])
+    return hashlib.sha1("".join(lst).encode()).hexdigest()
+
+
+def verify_signature(token, timestamp, nonce, encrypted, signature):
+    return _sha1_sign(token, timestamp, nonce, encrypted) == signature
+
+
+def _get_aes_key(encoding_aes_key):
+    if AES is None:
+        raise WeComCryptError("需要 pycryptodome: pip install pycryptodome")
+    # EncodingAESKey 是 43 位，去掉末尾补的 = 后 base64 解码得 32 字节
+    return base64.b64decode(encoding_aes_key + "=")
+
+
+def _pkcs7_unpad(data):
+    pad = data[-1]
+    if pad < 1 or pad > 32:
+        raise WeComCryptError("padding 无效")
+    return data[:-pad]
+
+
+def decrypt_echostr(encoding_aes_key, echostr):
+    """解密 URL 验证时的 echostr，返回明文 str"""
+    key = _get_aes_key(encoding_aes_key)
+    cipher = AES.new(key, AES.MODE_CBC, key[:16])
+    plain = _pkcs7_unpad(cipher.decrypt(base64.b64decode(echostr)))
+    # 结构：16 字节随机 + 4 字节长度 + 消息 + corp_id
+    msg_len = struct.unpack(">I", plain[16:20])[0]
+    return plain[20:20 + msg_len].decode("utf-8")
+
+
+def decrypt_msg(encoding_aes_key, encrypted_xml):
+    """解密 POST 过来的消息 XML，返回 (明文 XML str, ToUserName)"""
+    key = _get_aes_key(encoding_aes_key)
+    root = ET.fromstring(encrypted_xml)
+    encrypted = root.findtext("Encrypt")
+    if not encrypted:
+        raise WeComCryptError("XML 里没有 Encrypt 节点")
+    cipher = AES.new(key, AES.MODE_CBC, key[:16])
+    plain = _pkcs7_unpad(cipher.decrypt(base64.b64decode(encrypted)))
+    msg_len = struct.unpack(">I", plain[16:20])[0]
+    msg_xml = plain[20:20 + msg_len].decode("utf-8")
+    to_user = root.findtext("ToUserName") or ""
+    return msg_xml, to_user
+
+
+def parse_text_message(msg_xml):
+    """从解密后的消息 XML 提纯文本。只处理 text 类型，返回 (from_user, text)"""
+    root = ET.fromstring(msg_xml)
+    if (root.findtext("MsgType") or "") != "text":
+        return None, None
+    from_user = root.findtext("FromUserName") or ""
+    # 企业微信自建应用收到的用户消息：FromUserName 是成员 UserID
+    text = (root.findtext("Content") or "").strip()
+    # AgentID 校验（可选）：ToUserName 是企业 CorpID
+    return from_user, (text or None)
