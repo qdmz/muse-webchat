@@ -1,1 +1,25 @@
-IyEvdXNyL2Jpbi9lbnYgYmFzaAojIGZlaXNodV9hZGFwdGVyIOWQr+WKqOWMheijhQojIHRva2VuIOS4jiBicmlkZ2Ug5Li75pyN5Yqh5ZCM5rqQ77yIc2VydmVyLmVudu+8jOWSjCBydW4tYnJpZGdlLnNoIOWQjOS4gOS7ve+8ie+8jOawuOS4jea8guenu++8mwojIOmjnuS5puWHreaNruWNleeLrOaUviBmZWlzaHUuZW5277yINjAwIOadg+mZkO+8ie+8jOe8uuWkseWImeaLkue7neWQr+WKqOOAggpzZXQgLWV1byBwaXBlZmFpbApTUlZfQ09ORj0iL2hvbWUvaGF0Y2gvLmNvbmZpZy9jaGF0LWJyaWRnZS9zZXJ2ZXIuZW52IiAgIyBCUklER0VfVE9LRU4vQlJJREdFX1BPUlQvQlJJREdFX0RBVEEvQlJJREdFX1BBU1NXT1JECkJSSV9DT05GPSIvaG9tZS9oYXRjaC8uY29uZmlnL2NoYXQtYnJpZGdlL2JyaWRnZS5jb25mIiAgIyBCUklER0VfVVJML1BVQkxJQ19CQVNFLy4uLgpGRUlfQ09ORj0iL2hvbWUvaGF0Y2gvLmNvbmZpZy9jaGF0LWJyaWRnZS9mZWlzaHUuZW52IiAgICMgRkVJU0hVX0FQUF9JRC9GRUlTSFVfQVBQX1NFQ1JFVApbIC1mICIkU1JWX0NPTkYiIF0gfHwgeyBlY2hvICJtaXNzaW5nICRTUlZfQ09ORiIgPiYyOyBleGl0IDE7IH0KWyAtZiAiJEZFSV9DT05GIiBdIHx8IHsgZWNobyAibWlzc2luZyAkRkVJX0NPTkbvvIjlhYjloavlpb3po57kuaYgQXBwIElEL1NlY3JldO+8iSIgPiYyOyBleGl0IDE7IH0Kc2V0IC1hCnNvdXJjZSAiJFNSVl9DT05GIgpbIC1mICIkQlJJX0NPTkYiIF0gJiYgc291cmNlICIkQlJJX0NPTkYiCnNvdXJjZSAiJEZFSV9DT05GIgpzZXQgK2EKIyDmspnnm5IgZWdyZXNzIOS7o+eQhu+8iFdlYlNvY2tldCDlv4XpobvotbDku6PnkIbvvIzop4EgZmVpc2h1X2FkYXB0ZXIucHkg55qEIG1vbmtleS1wYXRjaO+8iQpleHBvcnQgaHR0cHNfcHJveHk9IiR7aHR0cHNfcHJveHk6LWh0dHA6Ly9oYXRjaC1lZ3Jlc3MtcHJveHk6MzEyOH0iCmV4cG9ydCBIVFRQU19QUk9YWT0iJHtIVFRQU19QUk9YWTotJGh0dHBzX3Byb3h5fSIKZXhwb3J0IGh0dHBfcHJveHk9IiR7aHR0cF9wcm94eTotJGh0dHBzX3Byb3h5fSIKZXhwb3J0IEhUVFBfUFJPWFk9IiR7SFRUUF9QUk9YWTotJGh0dHBzX3Byb3h5fSIKIyDmnKzlnLDmoaUgQVBJIOS4jei1sOS7o+eQhgpleHBvcnQgbm9fcHJveHk9IiR7bm9fcHJveHk6LTEyNy4wLjAuMSxsb2NhbGhvc3R9IgpleHBvcnQgTk9fUFJPWFk9IiR7Tk9fUFJPWFk6LSRub19wcm94eX0iCmV4ZWMgL2hvbWUvaGF0Y2gvd29ya3NwYWNlL2NoYXQtYnJpZGdlL3ZlbnYtZmVpc2h1L2Jpbi9weXRob24gXAogIC9ob21lL2hhdGNoL3dvcmtzcGFjZS9jaGF0LWJyaWRnZS9mZWlzaHVfYWRhcHRlci5weQo=
+#!/usr/bin/env bash
+# feishu_adapter 启动包装
+# token 与 bridge 主服务同源（server.env，和 run-bridge.sh 同一份），永不漂移；
+# 飞书凭据单独放 feishu.env（600 权限），缺失则拒绝启动。
+set -euo pipefail
+SRV_CONF="/home/hatch/.config/chat-bridge/server.env"  # BRIDGE_TOKEN/BRIDGE_PORT/BRIDGE_DATA/BRIDGE_PASSWORD
+BRI_CONF="/home/hatch/.config/chat-bridge/bridge.conf"  # BRIDGE_URL/PUBLIC_BASE/...
+FEI_CONF="/home/hatch/.config/chat-bridge/feishu.env"   # FEISHU_APP_ID/FEISHU_APP_SECRET
+[ -f "$SRV_CONF" ] || { echo "missing $SRV_CONF" >&2; exit 1; }
+[ -f "$FEI_CONF" ] || { echo "missing $FEI_CONF（先填好飞书 App ID/Secret）" >&2; exit 1; }
+set -a
+source "$SRV_CONF"
+[ -f "$BRI_CONF" ] && source "$BRI_CONF"
+source "$FEI_CONF"
+set +a
+# 沙盒 egress 代理（WebSocket 必须走代理，见 feishu_adapter.py 的 monkey-patch）
+export https_proxy="${https_proxy:-http://hatch-egress-proxy:3128}"
+export HTTPS_PROXY="${HTTPS_PROXY:-$https_proxy}"
+export http_proxy="${http_proxy:-$https_proxy}"
+export HTTP_PROXY="${HTTP_PROXY:-$https_proxy}"
+# 本地桥 API 不走代理
+export no_proxy="${no_proxy:-127.0.0.1,localhost}"
+export NO_PROXY="${NO_PROXY:-$no_proxy}"
+exec /home/hatch/workspace/chat-bridge/venv-feishu/bin/python \
+  /home/hatch/workspace/chat-bridge/feishu_adapter.py
