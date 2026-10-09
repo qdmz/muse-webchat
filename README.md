@@ -1,1 +1,94 @@
-IyBjaGF0LWJyaWRnZe+8mk11c2Ug5aSa6YCa6YGT6IGK5aSp5qGl5o6l77yIdjTvvIkKCm11c2UuYWkg5omT5LiN5byA5pe277yM55So6Ieq5bu6IFdlYiDpobXpnaIgLyDpo57kuaYgLyDkvIHkuJrlvq7kv6Hot58gTXVzZSDogYrlpKnjgIIKYnJpZGdlLnB5IOe6ryBQeXRob24g5qCH5YeG5bqT5Y2V5paH5Lu277yb5ZCE5bmz5Y+w57uP54us56uLIGFkYXB0ZXIg5o6l5YWl77yM5LiN5Yqo5qC45b+D44CCCgojIyDmnrbmnoQKCmBgYApbV2ViIFVJXSDilIDilIDilIDilIDilIDilIDilIDilIDilJAKW+mjnuS5piBCb3RdIOKUgCBhZGFwdGVyIOKUgOKUvOKGkiBicmlkZ2UucHkgKDo4MDkw77yM5raI5oGv5Lit5p6iKSDihpDihpIgTXVzZe+8iGhvb2sgMTVzIOi9ruivou+8iQpb5LyB5Lia5b6u5L+h5bqU55SoXSDilIDilIDilIDilIDilIDilIDilIDilJggICAgICAgICDilIIKICAgICAgICAgICAgICAgICAgICAgICAgICDmtojmga/luKYgY2hhbm5lbCDlrZfmrrXot6/nlLHvvIwKICAgICAgICAgICAgICAgICAgICAgICAgICDlm57lpI3oh6rliqjnu6fmib/ljp/muKDpgZMKYGBgCgotICoqV2ViKirvvJrmtY/op4jlmajnm7Tov57vvIxgY2hhbm5lbD13ZWJgCi0gKirpo57kuaYqKu+8mmBmZWlzaHVfYWRhcHRlci5weWAg57uP5a6Y5pa5IFNESyBXZWJTb2NrZXQg6ZW/6L+e5o6l5pS25raI5oGv77yI57qv5Ye656uZ77yM5peg6ZyA5YWs572R5YWl56uZ77yJ77yM6L2u6K+iIG91dGJveCDlj5Hlm54KLSAqKuS8geS4muW+ruS/oSoq77yaYnJpZGdlIOWGhee9riBgL2FwaS9jaGFubmVsL3dlY29tL2NhbGxiYWNrYCDmlLblvq7kv6HmnI3liqHlmajlm57osIPvvIjpnIDlhaznvZEgSFRUUFPvvInvvIxgd2Vjb21fYWRhcHRlci5weWAg6L2u6K+iIG91dGJveCDnu4/kvIHkuJrlvq7kv6EgQVBJIOWPkeWbngoKIyMg5Yqf6IO977yIdjIg5YWo6YOo5L+d55WZ77yJCgotIOaWh+Wtl+iBiuWkqe+8iE1hcmtkb3duIOa4suafk++8ieOAgeaWh+S7tuS4iuS8oO+8iOKJpDIwTULvvIzlm77niYflhoXogZTvvInjgIFNdXNlIOWPkeaWh+S7tgotIOWkmui9ruS4iuS4i+aWh++8iOacgOi/kSAyMCDmnaHvvInjgIHplb/ku7vliqHov5vluqbmm7TmlrDjgIHpgJrnn6XmjqjpgIHjgIHovpPlhaXkuK3mj5DnpLoKLSAqKnYzKirvvJrlpJrpgJrpgZPmtojmga/ot6/nlLHvvIhgY2hhbm5lbGAvYGNoYW5uZWxfY3R4YO+8ie+8jOWbnuWkjeiHquWKqOWbnuWOn+a4oOmBkwotICoqdjQqKu+8muS8geS4muW+ruS/oeWbnuiwg+aOpeWFpQoKIyMgQWdlbnQgLyBBZGFwdGVyIEFQSQoK6ZyA6KaBIGBBdXRob3JpemF0aW9uOiBCZWFyZXIgPEJSSURHRV9UT0tFTj5g77yI5LyB5Lia5b6u5L+h5Zue6LCD6Zmk5aSW77yM6Z2g5b6u5L+h562+5ZCN6aqM562+77yJ77yaCgp8IOaWueazlSB8IOi3r+W+hCB8IOivtOaYjiB8CnwtLS0tLS18LS0tLS0tfC0tLS0tLXwKfCBHRVQgfCBgL2FwaS9hZ2VudC9pbmJveD9hZnRlcj08aWQ+YCB8IOWPlueUqOaIt+a2iOaBr++8iOWFqOa4oOmBk++8jOWQqyBjaGFubmVsIOWtl+aute+8iSB8CnwgR0VUIHwgYC9hcGkvYWdlbnQvb3V0Ym94P2NoYW5uZWw9PGM+JmFmdGVyPTxpZD5gIHwgYWRhcHRlciDlj5bmn5DmuKDpgZPlvoXlj5HpgIHnmoTlm57lpI0gfAp8IEdFVCB8IGAvYXBpL2FnZW50L2hpc3Rvcnk/bGltaXQ9PG4+YCB8IOacgOi/kSBuIOadoe+8iOihpeS4iuS4i+aWh++8iSB8CnwgUE9TVCB8IGAvYXBpL2FnZW50L3JlcGx5YCB8IGB7cmVwbHlfdG8sIHRleHR9YO+8jOiHquWKqOe7p+aJv+a4oOmBkyB8CnwgUE9TVCB8IGAvYXBpL2FnZW50L25vdGlmeWAgfCBge3RleHR9YCDmjqjpgIHpgJrnn6UgfAp8IFBPU1QgfCBgL2FwaS9jaGFubmVsL2luY29taW5nYCB8IGFkYXB0ZXIg5o+Q5Lqk5raI5oGvIGB7Y2hhbm5lbCwgY2hhbm5lbF9jdHgsIHRleHR9YCB8CnwgR0VUL1BPU1QgfCBgL2FwaS9jaGFubmVsL3dlY29tL2NhbGxiYWNrYCB8IOS8geS4muW+ruS/oeacjeWKoeWZqOWbnuiwg++8iOmqjOetvu+8jOS4jeeUqCBiZWFyZXLvvIkgfAoKIyMg6YOo572yCgojIyMgMS4g5Li75qGl77yI5bey5LiK57q/77yJCgpzeXN0ZW1k77yaYGNmYi1jdHl1bi1zYWxlcy10dW5uZWwtYWM1ZWE4LXN2Yy1jaGF0LWJyaWRnZWAK5YWs572R77yaYGh0dHBzOi8vY2hhdC5xZG16Y3R5dW4uZHBkbnMub3JnL2DvvIhDbG91ZGZsYXJlIFR1bm5lbO+8iQoKIyMjIDIuIOmjnuS5piBhZGFwdGVy77yI5bey6IGU6LCD6YCa6L+H77yJCgoxLiBbb3Blbi5mZWlzaHUuY25dKGh0dHBzOi8vb3Blbi5mZWlzaHUuY24pIOWIm+W7uuS8geS4muiHquW7uuW6lOeUqO+8jOiusOS4iyBBcHAgSUQgLyBBcHAgU2VjcmV0CjIuIOadg+mZkO+8mmBpbTptZXNzYWdlYOOAgWBpbTptZXNzYWdlOnNlbmRfYXNfYm90YO+8m+S6i+S7tuiuoumYhemAiSoq5L2/55So6ZW/6L+e5o6l5o6l5pS25LqL5Lu2KirvvIzmt7vliqAgYGltLm1lc3NhZ2UucmVjZWl2ZV92MWAKMy4g5Y+R5biD5bqU55SoCjQuIOWGmSBgfi8uY29uZmlnL2NoYXQtYnJpZGdlL2ZlaXNodS5lbnZg77yINjAw77yJ77yaCiAgIGBgYAogICBGRUlTSFVfQVBQX0lEPWNsaV94eHgKICAgRkVJU0hVX0FQUF9TRUNSRVQ9eHh4CiAgIGBgYAo1LiBgc3lzdGVtY3RsIGVuYWJsZSAtLW5vdyBjZmItY3R5dW4tc2FsZXMtdHVubmVsLWFjNWVhOC1zdmMtZmVpc2h1LWFkYXB0ZXJgCgrms6jmhI/vvJrmspnnm5Llh7rnvZHotbDku6PnkIbvvIxgcnVuLWZlaXNodS5zaGAg5bey5aSE55CG77yI5ZCrIGxhcmstb2FwaSDnmoQgV2ViU29ja2V0IOS7o+eQhiBtb25rZXktcGF0Y2jvvInjgIIKCiMjIyAzLiDkvIHkuJrlvq7kv6EgYWRhcHRlcu+8iOW+hemFjee9ru+8iQoKMS4g5LyB5Lia5b6u5L+h566h55CG5ZCO5Y+wIOKGkiDlupTnlKjnrqHnkIYg4oaSIOWIm+W7uuiHquW7uuW6lOeUqO+8jOiusOS4iyBDb3JwSUQgLyBBZ2VudElEIC8gU2VjcmV0CjIuIOaOpeaUtua2iOaBr+iuvue9ruWbnuiwg++8mgogICAtIFVSTO+8mmBodHRwczovL2NoYXQucWRtemN0eXVuLmRwZG5zLm9yZy9hcGkvY2hhbm5lbC93ZWNvbS9jYWxsYmFja2AKICAgLSBUb2tlbiAvIEVuY29kaW5nQUVTS2V577ya6ZqP5py655Sf5oiQ77yM5L+d5a2Y5aW9CjMuIOWGmSBgfi8uY29uZmlnL2NoYXQtYnJpZGdlL3dlY29tLmVudmDvvIg2MDDvvInvvJoKICAgYGBgCiAgIFdFQ09NX0NPUlBfSUQ9d3d4eHgKICAgV0VDT01fQUdFTlRfSUQ9MTAwMDAwMQogICBXRUNPTV9TRUNSRVQ9eHh4CiAgIFdFQ09NX1RPS0VOPXl5eSAgICAgICAgICAjIOe7mSBicmlkZ2Ug5Zue6LCD55SoCiAgIFdFQ09NX0VOQ09ESU5HX0FFU19LRVk9enp6CiAgIGBgYAo0LiBicmlkZ2Ug6ZyA6KOFIGBweWNyeXB0b2RvbWVg77yI5Yqg6Kej5a+G55So77yJ77yaYHBpcCBpbnN0YWxsIHB5Y3J5cHRvZG9tZWAKNS4g6K6pIGJyaWRnZSDov5vnqIvliqDovb0gd2Vjb20uZW5277yI5Yqg5YiwIHJ1bi1icmlkZ2Uuc2gg5oiWIHN5c3RlbWQgRW52aXJvbm1lbnRGaWxl77yJCjYuIOWQr+WKqCBhZGFwdGVy77yaYHJ1bi13ZWNvbS5zaGDvvIjmiJbphY0gc3lzdGVtZCDmnI3liqHvvIkKCiMjIOmFjee9ruaWh+S7tgoKYH4vLmNvbmZpZy9jaGF0LWJyaWRnZS9g77yI5YWo6YOoIDYwMCDmnYPpmZDvvInvvJoKLSBgc2VydmVyLmVudmDvvJpCUklER0VfUE9SVCAvIEJSSURHRV9QQVNTV09SRCAvIEJSSURHRV9UT0tFTiAvIEJSSURHRV9EQVRBCi0gYGJyaWRnZS5jb25mYO+8mkJSSURHRV9VUkwgLyBQVUJMSUNfQkFTRe+8iGhvb2sg55So77yJCi0gYGZlaXNodS5lbnZg77yaRkVJU0hVX0FQUF9JRCAvIEZFSVNIVV9BUFBfU0VDUkVUCi0gYHdlY29tLmVudmDvvJpXRUNPTV9DT1JQX0lEIC8gV0VDT01fQUdFTlRfSUQgLyBXRUNPTV9TRUNSRVQgLyBXRUNPTV9UT0tFTiAvIFdFQ09NX0VOQ09ESU5HX0FFU19LRVkKCiMjIOWuieWFqAoKLSBXZWIgVUkg5a+G56CB55m75b2V77yIc2hhMjU2K3NhbHTvvIxIdHRwT25seSBzZXNzaW9u77yMNyDlpKnvvIkKLSBBZ2VudC9BZGFwdGVyIEFQSSDnlKggYmVhcmVyIHRva2Vu77yb5LiK5Lyg5paH5Lu25ZCN5raI5q+S77ybL2ZpbGVzIOmcgOeZu+W9lQotIOS8geS4muW+ruS/oeWbnuiwg+mdoOW+ruS/oSBTSEExIOetvuWQjemqjOetvu+8jOaXoOmcgCBiZWFyZXIKLSDlh63mja7lj6rmlL4gYH4vLmNvbmZpZy9jaGF0LWJyaWRnZS8qLmVudmDvvIg2MDDvvInvvIzkuI3ov5vku6PnoIHku5PlupMKLSDmtojmga/lj6rlrZggNTAwIOadoe+8m+S4iuS8oCDiiaQyME1CCg==
+# chat-bridge：Muse 多通道聊天桥接（v4）
+
+muse.ai 打不开时，用自建 Web 页面 / 飞书 / 企业微信跟 Muse 聊天。
+bridge.py 纯 Python 标准库单文件；各平台经独立 adapter 接入，不动核心。
+
+## 架构
+
+```
+[Web UI] ────────┐
+[飞书 Bot] ─ adapter ─┼→ bridge.py (:8090，消息中枢) ←→ Muse（hook 15s 轮询）
+[企业微信应用] ───────┘         │
+                          消息带 channel 字段路由，
+                          回复自动继承原渠道
+```
+
+- **Web**：浏览器直连，`channel=web`
+- **飞书**：`feishu_adapter.py` 经官方 SDK WebSocket 长连接收消息（纯出站，无需公网入站），轮询 outbox 发回
+- **企业微信**：bridge 内置 `/api/channel/wecom/callback` 收微信服务器回调（需公网 HTTPS），`wecom_adapter.py` 轮询 outbox 经企业微信 API 发回
+
+## 功能（v2 全部保留）
+
+- 文字聊天（Markdown 渲染）、文件上传（≤20MB，图片内联）、Muse 发文件
+- 多轮上下文（最近 20 条）、长任务进度更新、通知推送、输入中提示
+- **v3**：多通道消息路由（`channel`/`channel_ctx`），回复自动回原渠道
+- **v4**：企业微信回调接入
+
+## Agent / Adapter API
+
+需要 `Authorization: Bearer <BRIDGE_TOKEN>`（企业微信回调除外，靠微信签名验签）：
+
+| 方法 | 路径 | 说明 |
+|------|------|------|
+| GET | `/api/agent/inbox?after=<id>` | 取用户消息（全渠道，含 channel 字段） |
+| GET | `/api/agent/outbox?channel=<c>&after=<id>` | adapter 取某渠道待发送的回复 |
+| GET | `/api/agent/history?limit=<n>` | 最近 n 条（补上下文） |
+| POST | `/api/agent/reply` | `{reply_to, text}`，自动继承渠道 |
+| POST | `/api/agent/notify` | `{text}` 推送通知 |
+| POST | `/api/channel/incoming` | adapter 提交消息 `{channel, channel_ctx, text}` |
+| GET/POST | `/api/channel/wecom/callback` | 企业微信服务器回调（验签，不用 bearer） |
+
+## 部署
+
+### 1. 主桥（已上线）
+
+systemd：`cfb-ctyun-sales-tunnel-ac5ea8-svc-chat-bridge`
+公网：`https://chat.qdmzctyun.dpdns.org/`（Cloudflare Tunnel）
+
+### 2. 飞书 adapter（已联调通过）
+
+1. [open.feishu.cn](https://open.feishu.cn) 创建企业自建应用，记下 App ID / App Secret
+2. 权限：`im:message`、`im:message:send_as_bot`；事件订阅选**使用长连接接收事件**，添加 `im.message.receive_v1`
+3. 发布应用
+4. 写 `~/.config/chat-bridge/feishu.env`（600）：
+   ```
+   FEISHU_APP_ID=cli_xxx
+   FEISHU_APP_SECRET=xxx
+   ```
+5. `systemctl enable --now cfb-ctyun-sales-tunnel-ac5ea8-svc-feishu-adapter`
+
+注意：沙盒出网走代理，`run-feishu.sh` 已处理（含 lark-oapi 的 WebSocket 代理 monkey-patch）。
+
+### 3. 企业微信 adapter（待配置）
+
+1. 企业微信管理后台 → 应用管理 → 创建自建应用，记下 CorpID / AgentID / Secret
+2. 接收消息设置回调：
+   - URL：`https://chat.qdmzctyun.dpdns.org/api/channel/wecom/callback`
+   - Token / EncodingAESKey：随机生成，保存好
+3. 写 `~/.config/chat-bridge/wecom.env`（600）：
+   ```
+   WECOM_CORP_ID=wwxxx
+   WECOM_AGENT_ID=1000001
+   WECOM_SECRET=xxx
+   WECOM_TOKEN=yyy          # 给 bridge 回调用
+   WECOM_ENCODING_AES_KEY=zzz
+   ```
+4. bridge 需装 `pycryptodome`（加解密用）：`pip install pycryptodome`
+5. 让 bridge 进程加载 wecom.env（加到 run-bridge.sh 或 systemd EnvironmentFile）
+6. 启动 adapter：`run-wecom.sh`（或配 systemd 服务）
+
+## 配置文件
+
+`~/.config/chat-bridge/`（全部 600 权限）：
+- `server.env`：BRIDGE_PORT / BRIDGE_PASSWORD / BRIDGE_TOKEN / BRIDGE_DATA
+- `bridge.conf`：BRIDGE_URL / PUBLIC_BASE（hook 用）
+- `feishu.env`：FEISHU_APP_ID / FEISHU_APP_SECRET
+- `wecom.env`：WECOM_CORP_ID / WECOM_AGENT_ID / WECOM_SECRET / WECOM_TOKEN / WECOM_ENCODING_AES_KEY
+
+## 安全
+
+- Web UI 密码登录（sha256+salt，HttpOnly session，7 天）
+- Agent/Adapter API 用 bearer token；上传文件名消毒；/files 需登录
+- 企业微信回调靠微信 SHA1 签名验签，无需 bearer
+- 凭据只放 `~/.config/chat-bridge/*.env`（600），不进代码仓库
+- 消息只存 500 条；上传 ≤20MB
