@@ -1,1 +1,22 @@
-IyEvdXNyL2Jpbi9lbnYgYmFzaAojIHdlY29tX2FkYXB0ZXIg5ZCv5Yqo5YyF6KOFCiMgdG9rZW4g5LiOIGJyaWRnZSDkuLvmnI3liqHlkIzmupDvvIhzZXJ2ZXIuZW5277yJ77yb5LyB5Lia5b6u5L+h5Yet5o2u5Y2V54us5pS+IHdlY29tLmVudu+8iDYwMCDmnYPpmZDvvInjgIIKc2V0IC1ldW8gcGlwZWZhaWwKU1JWX0NPTkY9Ii9ob21lL2hhdGNoLy5jb25maWcvY2hhdC1icmlkZ2Uvc2VydmVyLmVudiIgICMgQlJJREdFX1RPS0VOL0JSSURHRV9QT1JULy4uLgpCUklfQ09ORj0iL2hvbWUvaGF0Y2gvLmNvbmZpZy9jaGF0LWJyaWRnZS9icmlkZ2UuY29uZiIgICMgQlJJREdFX1VSTC9QVUJMSUNfQkFTRS8uLi4KV0VDX0NPTkY9Ii9ob21lL2hhdGNoLy5jb25maWcvY2hhdC1icmlkZ2Uvd2Vjb20uZW52IiAgICAjIFdFQ09NX0NPUlBfSUQvQUdFTlRfSUQvU0VDUkVULy4uLgpbIC1mICIkU1JWX0NPTkYiIF0gfHwgeyBlY2hvICJtaXNzaW5nICRTUlZfQ09ORiIgPiYyOyBleGl0IDE7IH0KWyAtZiAiJFdFQ19DT05GIiBdIHx8IHsgZWNobyAibWlzc2luZyAkV0VDX0NPTkbvvIjlhYjloavlpb3kvIHkuJrlvq7kv6EgQ29ycElEL0FnZW50SUQvU2VjcmV077yJIiA+JjI7IGV4aXQgMTsgfQpzZXQgLWEKc291cmNlICIkU1JWX0NPTkYiClsgLWYgIiRCUklfQ09ORiIgXSAmJiBzb3VyY2UgIiRCUklfQ09ORiIKc291cmNlICIkV0VDX0NPTkYiCnNldCArYQojIOaymeebkiBlZ3Jlc3Mg5Luj55CG77yI5LyB5Lia5b6u5L+hIEFQSSDotbDlhaznvZHvvIkKZXhwb3J0IGh0dHBzX3Byb3h5PSIke2h0dHBzX3Byb3h5Oi1odHRwOi8vaGF0Y2gtZWdyZXNzLXByb3h5OjMxMjh9IgpleHBvcnQgSFRUUFNfUFJPWFk9IiR7SFRUUFNfUFJPWFk6LSRodHRwc19wcm94eX0iCmV4cG9ydCBodHRwX3Byb3h5PSIke2h0dHBfcHJveHk6LSRodHRwc19wcm94eX0iCmV4cG9ydCBIVFRQX1BST1hZPSIke0hUVFBfUFJPWFk6LSRodHRwc19wcm94eX0iCmV4cG9ydCBub19wcm94eT0iJHtub19wcm94eTotMTI3LjAuMC4xLGxvY2FsaG9zdH0iCmV4cG9ydCBOT19QUk9YWT0iJHtOT19QUk9YWTotJG5vX3Byb3h5fSIKZXhlYyAvdXNyL2Jpbi9weXRob24zIC9ob21lL2hhdGNoL3dvcmtzcGFjZS9jaGF0LWJyaWRnZS93ZWNvbV9hZGFwdGVyLnB5Cg==
+#!/usr/bin/env bash
+# wecom_adapter 启动包装
+# token 与 bridge 主服务同源（server.env）；企业微信凭据单独放 wecom.env（600 权限）。
+set -euo pipefail
+SRV_CONF="/home/hatch/.config/chat-bridge/server.env"  # BRIDGE_TOKEN/BRIDGE_PORT/...
+BRI_CONF="/home/hatch/.config/chat-bridge/bridge.conf"  # BRIDGE_URL/PUBLIC_BASE/...
+WEC_CONF="/home/hatch/.config/chat-bridge/wecom.env"    # WECOM_CORP_ID/AGENT_ID/SECRET/...
+[ -f "$SRV_CONF" ] || { echo "missing $SRV_CONF" >&2; exit 1; }
+[ -f "$WEC_CONF" ] || { echo "missing $WEC_CONF（先填好企业微信 CorpID/AgentID/Secret）" >&2; exit 1; }
+set -a
+source "$SRV_CONF"
+[ -f "$BRI_CONF" ] && source "$BRI_CONF"
+source "$WEC_CONF"
+set +a
+# 沙盒 egress 代理（企业微信 API 走公网）
+export https_proxy="${https_proxy:-http://hatch-egress-proxy:3128}"
+export HTTPS_PROXY="${HTTPS_PROXY:-$https_proxy}"
+export http_proxy="${http_proxy:-$https_proxy}"
+export HTTP_PROXY="${HTTP_PROXY:-$https_proxy}"
+export no_proxy="${no_proxy:-127.0.0.1,localhost}"
+export NO_PROXY="${NO_PROXY:-$no_proxy}"
+exec /usr/bin/python3 /home/hatch/workspace/chat-bridge/wecom_adapter.py
