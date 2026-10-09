@@ -1,1 +1,146 @@
-IyEvdXNyL2Jpbi9lbnYgcHl0aG9uMwoiIiLkvIHkuJrlvq7kv6EgYWRhcHRlcu+8mui9ruivoiBicmlkZ2Ugb3V0Ym9477yM57uP5LyB5Lia5b6u5L+hIEFQSSDlj5Hlm57nlKjmiLcKCuaetuaehO+8mgogIFvkvIHkuJrlvq7kv6HmnI3liqHlmahdIC0t5Zue6LCDLS0+IGJyaWRnZS5weTovYXBpL2NoYW5uZWwvd2Vjb20vY2FsbGJhY2vvvIjmlLbmtojmga/lhaXmoaXvvIkKICDmnKwgYWRhcHRlcjog6L2u6K+iIC9hcGkvYWdlbnQvb3V0Ym94P2NoYW5uZWw9d2Vjb20g4oaSIOiwg+S8geS4muW+ruS/oSBtZXNzYWdlL3NlbmQg5Y+R5ZueCgrphY3nva7vvIh+Ly5jb25maWcvY2hhdC1icmlkZ2Uvd2Vjb20uZW5277yMNjAwIOadg+mZkO+8ie+8mgogIFdFQ09NX0NPUlBfSUQgICAgICAgIOS8geS4miBJRAogIFdFQ09NX0FHRU5UX0lEICAgICAgIOW6lOeUqCBBZ2VudElECiAgV0VDT01fU0VDUkVUICAgICAgICAg5bqU55SoIFNlY3JldAogICMgV0VDT01fVE9LRU4gLyBXRUNPTV9FTkNPRElOR19BRVNfS0VZIOe7mSBicmlkZ2UucHkg5Zue6LCD55So77yI5ZCM5LiA5paH5Lu25Y+v5YWx5a2Y77yJCgpicmlkZ2Ug6YWN572u77yIc2VydmVyLmVudu+8ie+8mkJSSURHRV9UT0tFTgoiIiIKaW1wb3J0IGpzb24KaW1wb3J0IGxvZ2dpbmcKaW1wb3J0IG9zCmltcG9ydCBzeXMKaW1wb3J0IHRpbWUKaW1wb3J0IHVybGxpYi5yZXF1ZXN0CgpDSEFOTkVMID0gIndlY29tIgpDVVJTT1JfRklMRSA9ICIvaG9tZS9oYXRjaC8uY29uZmlnL2NoYXQtYnJpZGdlL3dlY29tLWN1cnNvciIKCldFQ09NX0NPUlBfSUQgPSBvcy5lbnZpcm9uLmdldCgiV0VDT01fQ09SUF9JRCIsICIiKQpXRUNPTV9BR0VOVF9JRCA9IG9zLmVudmlyb24uZ2V0KCJXRUNPTV9BR0VOVF9JRCIsICIiKQpXRUNPTV9TRUNSRVQgPSBvcy5lbnZpcm9uLmdldCgiV0VDT01fU0VDUkVUIiwgIiIpCkJSSURHRV9UT0tFTiA9IG9zLmVudmlyb24uZ2V0KCJCUklER0VfVE9LRU4iLCAiIikKQlJJREdFX1VSTCA9IG9zLmVudmlyb24uZ2V0KCJCUklER0VfVVJMIiwgImh0dHA6Ly8xMjcuMC4wLjE6ODA5MCIpCgpsb2cgPSBsb2dnaW5nLmdldExvZ2dlcigid2Vjb20iKQpsb2dnaW5nLmJhc2ljQ29uZmlnKGxldmVsPWxvZ2dpbmcuSU5GTywKICAgICAgICAgICAgICAgICAgICBmb3JtYXQ9IiUoYXNjdGltZSlzIFt3ZWNvbV0gJShsZXZlbG5hbWUpcyAlKG1lc3NhZ2UpcyIpCgoKZGVmIGJyaWRnZV9hcGkobWV0aG9kLCBwYXRoLCBib2R5PU5vbmUpOgogICAgcmVxID0gdXJsbGliLnJlcXVlc3QuUmVxdWVzdCgKICAgICAgICBCUklER0VfVVJMICsgcGF0aCwKICAgICAgICBkYXRhPWpzb24uZHVtcHMoYm9keSkuZW5jb2RlKCkgaWYgYm9keSBpcyBub3QgTm9uZSBlbHNlIE5vbmUsCiAgICAgICAgbWV0aG9kPW1ldGhvZCwKICAgICAgICBoZWFkZXJzPXsiQXV0aG9yaXphdGlvbiI6IGYiQmVhcmVyIHtCUklER0VfVE9LRU59IiwKICAgICAgICAgICAgICAgICAiQ29udGVudC1UeXBlIjogImFwcGxpY2F0aW9uL2pzb24ifSkKICAgIHdpdGggdXJsbGliLnJlcXVlc3QudXJsb3BlbihyZXEsIHRpbWVvdXQ9MTUpIGFzIHI6CiAgICAgICAgcmV0dXJuIGpzb24ubG9hZHMoci5yZWFkKCkuZGVjb2RlKCkpCgoKZGVmIGxvYWRfY3Vyc29yKCk6CiAgICB0cnk6CiAgICAgICAgcmV0dXJuIGludChvcGVuKENVUlNPUl9GSUxFKS5yZWFkKCkuc3RyaXAoKSkKICAgIGV4Y2VwdCBFeGNlcHRpb246CiAgICAgICAgcmV0dXJuIDAKCgpkZWYgc2F2ZV9jdXJzb3IoY2lkKToKICAgIHRyeToKICAgICAgICB3aXRoIG9wZW4oQ1VSU09SX0ZJTEUsICJ3IikgYXMgZjoKICAgICAgICAgICAgZi53cml0ZShzdHIoY2lkKSkKICAgIGV4Y2VwdCBFeGNlcHRpb24gYXMgZToKICAgICAgICBsb2cud2FybmluZygiY3Vyc29yIOS/neWtmOWksei0pTogJXMiLCBlKQoKCiMgYWNjZXNzX3Rva2VuIOe8k+WtmO+8iOS8geS4muW+ruS/oSB0b2tlbiDmnInmlYjmnJ8gMiDlsI/ml7bvvIkKX3Rva2VuX2NhY2hlID0geyJ0b2tlbiI6ICIiLCAiZXhwaXJlcyI6IDB9CgoKZGVmIGdldF9hY2Nlc3NfdG9rZW4oKToKICAgIG5vdyA9IHRpbWUudGltZSgpCiAgICBpZiBfdG9rZW5fY2FjaGVbInRva2VuIl0gYW5kIG5vdyA8IF90b2tlbl9jYWNoZVsiZXhwaXJlcyJdIC0gNjA6CiAgICAgICAgcmV0dXJuIF90b2tlbl9jYWNoZVsidG9rZW4iXQogICAgdXJsID0gKCJodHRwczovL3F5YXBpLndlaXhpbi5xcS5jb20vY2dpLWJpbi9nZXR0b2tlbiIKICAgICAgICAgICBmIj9jb3JwaWQ9e1dFQ09NX0NPUlBfSUR9JmNvcnBzZWNyZXQ9e1dFQ09NX1NFQ1JFVH0iKQogICAgd2l0aCB1cmxsaWIucmVxdWVzdC51cmxvcGVuKHVybCwgdGltZW91dD0xNSkgYXMgcjoKICAgICAgICBkYXRhID0ganNvbi5sb2FkcyhyLnJlYWQoKS5kZWNvZGUoKSkKICAgIGlmIGRhdGEuZ2V0KCJlcnJjb2RlIikgIT0gMDoKICAgICAgICByYWlzZSBSdW50aW1lRXJyb3IoZiJnZXR0b2tlbiDlpLHotKU6IHtkYXRhfSIpCiAgICBfdG9rZW5fY2FjaGVbInRva2VuIl0gPSBkYXRhWyJhY2Nlc3NfdG9rZW4iXQogICAgX3Rva2VuX2NhY2hlWyJleHBpcmVzIl0gPSBub3cgKyBpbnQoZGF0YS5nZXQoImV4cGlyZXNfaW4iLCA3MjAwKSkKICAgIHJldHVybiBfdG9rZW5fY2FjaGVbInRva2VuIl0KCgpkZWYgd2Vjb21fc2VuZF90ZXh0KHVzZXJfaWQsIHRleHQpOgogICAgIiIi57uP5LyB5Lia5b6u5L+hIEFQSSDlj5HmlofmnKzmtojmga8iIiIKICAgIHRva2VuID0gZ2V0X2FjY2Vzc190b2tlbigpCiAgICB1cmwgPSAoImh0dHBzOi8vcXlhcGkud2VpeGluLnFxLmNvbS9jZ2ktYmluL21lc3NhZ2Uvc2VuZCIKICAgICAgICAgICBmIj9hY2Nlc3NfdG9rZW49e3Rva2VufSIpCiAgICAjIOS8geS4muW+ruS/oeaWh+acrOS4iumZkCAyMDQ4IOWtl+iKgu+8jOi2hemVv+aIquaWrQogICAgcGF5bG9hZCA9IHsKICAgICAgICAidG91c2VyIjogdXNlcl9pZCwKICAgICAgICAibXNndHlwZSI6ICJ0ZXh0IiwKICAgICAgICAiYWdlbnRpZCI6IGludChXRUNPTV9BR0VOVF9JRCksCiAgICAgICAgInRleHQiOiB7ImNvbnRlbnQiOiB0ZXh0WzoyMDAwXX0sCiAgICB9CiAgICByZXEgPSB1cmxsaWIucmVxdWVzdC5SZXF1ZXN0KAogICAgICAgIHVybCwgZGF0YT1qc29uLmR1bXBzKHBheWxvYWQsIGVuc3VyZV9hc2NpaT1GYWxzZSkuZW5jb2RlKCksCiAgICAgICAgaGVhZGVycz17IkNvbnRlbnQtVHlwZSI6ICJhcHBsaWNhdGlvbi9qc29uIn0sIG1ldGhvZD0iUE9TVCIpCiAgICB3aXRoIHVybGxpYi5yZXF1ZXN0LnVybG9wZW4ocmVxLCB0aW1lb3V0PTE1KSBhcyByOgogICAgICAgIGRhdGEgPSBqc29uLmxvYWRzKHIucmVhZCgpLmRlY29kZSgpKQogICAgaWYgZGF0YS5nZXQoImVycmNvZGUiKSAhPSAwOgogICAgICAgIHJhaXNlIFJ1bnRpbWVFcnJvcihmIm1lc3NhZ2Uvc2VuZCDlpLHotKU6IHtkYXRhfSIpCiAgICByZXR1cm4gZGF0YQoKCmRlZiBvdXRib3hfbG9vcCgpOgogICAgY3Vyc29yID0gbG9hZF9jdXJzb3IoKQogICAgbG9nLmluZm8oIm91dGJveCDova7or6LlkK/liqjvvIxjdXJzb3I9JWQiLCBjdXJzb3IpCiAgICB3aGlsZSBUcnVlOgogICAgICAgIHRyeToKICAgICAgICAgICAgcmVzcCA9IGJyaWRnZV9hcGkoCiAgICAgICAgICAgICAgICAiR0VUIiwKICAgICAgICAgICAgICAgIGYiL2FwaS9hZ2VudC9vdXRib3g/Y2hhbm5lbD17Q0hBTk5FTH0mYWZ0ZXI9e2N1cnNvcn0iKQogICAgICAgICAgICBmb3IgbSBpbiByZXNwLmdldCgibWVzc2FnZXMiLCBbXSk6CiAgICAgICAgICAgICAgICBjdHggPSBtLmdldCgiY2hhbm5lbF9jdHgiKSBvciB7fQogICAgICAgICAgICAgICAgdXNlcl9pZCA9IGN0eC5nZXQoInVzZXJfaWQiLCAiIikKICAgICAgICAgICAgICAgIGlmIG5vdCB1c2VyX2lkOgogICAgICAgICAgICAgICAgICAgIGxvZy53YXJuaW5nKCLmtojmga8gJWQg57y6IHVzZXJfaWTvvIzot7Pov4ciLCBtWyJpZCJdKQogICAgICAgICAgICAgICAgICAgIGN1cnNvciA9IG1bImlkIl0KICAgICAgICAgICAgICAgICAgICBjb250aW51ZQogICAgICAgICAgICAgICAgdHJ5OgogICAgICAgICAgICAgICAgICAgIHdlY29tX3NlbmRfdGV4dCh1c2VyX2lkLCBtLmdldCgidGV4dCIsICIiKSkKICAgICAgICAgICAgICAgICAgICBsb2cuaW5mbygi5bey5Y+R5Zue5LyB5Lia5b6u5L+hIGlkPSVkIHVzZXI9JXMiLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgIG1bImlkIl0sIHVzZXJfaWRbOjhdKQogICAgICAgICAgICAgICAgZXhjZXB0IEV4Y2VwdGlvbiBhcyBlOgogICAgICAgICAgICAgICAgICAgIGxvZy5lcnJvcigi5Y+R6YCB5aSx6LSlIGlkPSVkOiAlcyIsIG1bImlkIl0sIGUpCiAgICAgICAgICAgICAgICAgICAgYnJlYWsgICMg5LiL6L2u6YeN6K+V77yM5LiN5o6o6L+bIGN1cnNvcgogICAgICAgICAgICAgICAgY3Vyc29yID0gbVsiaWQiXQogICAgICAgICAgICAgICAgc2F2ZV9jdXJzb3IoY3Vyc29yKQogICAgICAgIGV4Y2VwdCBFeGNlcHRpb24gYXMgZToKICAgICAgICAgICAgbG9nLndhcm5pbmcoIm91dGJveCDova7or6LlpLHotKU6ICVzIiwgZSkKICAgICAgICB0aW1lLnNsZWVwKDMpCgoKZGVmIG1haW4oKToKICAgIGlmIG5vdCBhbGwoW1dFQ09NX0NPUlBfSUQsIFdFQ09NX0FHRU5UX0lELCBXRUNPTV9TRUNSRVRdKToKICAgICAgICBsb2cuZXJyb3IoIuW/hemhu+iuvue9riBXRUNPTV9DT1JQX0lEIC8gV0VDT01fQUdFTlRfSUQgLyBXRUNPTV9TRUNSRVQiKQogICAgICAgIHN5cy5leGl0KDEpCiAgICBpZiBub3QgQlJJREdFX1RPS0VOOgogICAgICAgIGxvZy5lcnJvcigi5b+F6aG76K6+572uIEJSSURHRV9UT0tFTiIpCiAgICAgICAgc3lzLmV4aXQoMSkKICAgIGxvZy5pbmZvKCLkvIHkuJrlvq7kv6EgYWRhcHRlciDlkK/liqjvvIggY29ycD0lcyBhZ2VudD0lcyDvvIkiLAogICAgICAgICAgICAgV0VDT01fQ09SUF9JRFs6Nl0sIFdFQ09NX0FHRU5UX0lEKQogICAgb3V0Ym94X2xvb3AoKQoKCmlmIF9fbmFtZV9fID09ICJfX21haW5fXyI6CiAgICBtYWluKCkK
+#!/usr/bin/env python3
+"""企业微信 adapter：轮询 bridge outbox，经企业微信 API 发回用户
+
+架构：
+  [企业微信服务器] --回调--> bridge.py:/api/channel/wecom/callback（收消息入桥）
+  本 adapter: 轮询 /api/agent/outbox?channel=wecom → 调企业微信 message/send 发回
+
+配置（~/.config/chat-bridge/wecom.env，600 权限）：
+  WECOM_CORP_ID        企业 ID
+  WECOM_AGENT_ID       应用 AgentID
+  WECOM_SECRET         应用 Secret
+  # WECOM_TOKEN / WECOM_ENCODING_AES_KEY 给 bridge.py 回调用（同一文件可共存）
+
+bridge 配置（server.env）：BRIDGE_TOKEN
+"""
+import json
+import logging
+import os
+import sys
+import time
+import urllib.request
+
+CHANNEL = "wecom"
+CURSOR_FILE = "/home/hatch/.config/chat-bridge/wecom-cursor"
+
+WECOM_CORP_ID = os.environ.get("WECOM_CORP_ID", "")
+WECOM_AGENT_ID = os.environ.get("WECOM_AGENT_ID", "")
+WECOM_SECRET = os.environ.get("WECOM_SECRET", "")
+BRIDGE_TOKEN = os.environ.get("BRIDGE_TOKEN", "")
+BRIDGE_URL = os.environ.get("BRIDGE_URL", "http://127.0.0.1:8090")
+
+log = logging.getLogger("wecom")
+logging.basicConfig(level=logging.INFO,
+                    format="%(asctime)s [wecom] %(levelname)s %(message)s")
+
+
+def bridge_api(method, path, body=None):
+    req = urllib.request.Request(
+        BRIDGE_URL + path,
+        data=json.dumps(body).encode() if body is not None else None,
+        method=method,
+        headers={"Authorization": f"Bearer {BRIDGE_TOKEN}",
+                 "Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=15) as r:
+        return json.loads(r.read().decode())
+
+
+def load_cursor():
+    try:
+        return int(open(CURSOR_FILE).read().strip())
+    except Exception:
+        return 0
+
+
+def save_cursor(cid):
+    try:
+        with open(CURSOR_FILE, "w") as f:
+            f.write(str(cid))
+    except Exception as e:
+        log.warning("cursor 保存失败: %s", e)
+
+
+# access_token 缓存（企业微信 token 有效期 2 小时）
+_token_cache = {"token": "", "expires": 0}
+
+
+def get_access_token():
+    now = time.time()
+    if _token_cache["token"] and now < _token_cache["expires"] - 60:
+        return _token_cache["token"]
+    url = ("https://qyapi.weixin.qq.com/cgi-bin/gettoken"
+           f"?corpid={WECOM_CORP_ID}&corpsecret={WECOM_SECRET}")
+    with urllib.request.urlopen(url, timeout=15) as r:
+        data = json.loads(r.read().decode())
+    if data.get("errcode") != 0:
+        raise RuntimeError(f"gettoken 失败: {data}")
+    _token_cache["token"] = data["access_token"]
+    _token_cache["expires"] = now + int(data.get("expires_in", 7200))
+    return _token_cache["token"]
+
+
+def wecom_send_text(user_id, text):
+    """经企业微信 API 发文本消息"""
+    token = get_access_token()
+    url = ("https://qyapi.weixin.qq.com/cgi-bin/message/send"
+           f"?access_token={token}")
+    # 企业微信文本上限 2048 字节，超长截断
+    payload = {
+        "touser": user_id,
+        "msgtype": "text",
+        "agentid": int(WECOM_AGENT_ID),
+        "text": {"content": text[:2000]},
+    }
+    req = urllib.request.Request(
+        url, data=json.dumps(payload, ensure_ascii=False).encode(),
+        headers={"Content-Type": "application/json"}, method="POST")
+    with urllib.request.urlopen(req, timeout=15) as r:
+        data = json.loads(r.read().decode())
+    if data.get("errcode") != 0:
+        raise RuntimeError(f"message/send 失败: {data}")
+    return data
+
+
+def outbox_loop():
+    cursor = load_cursor()
+    log.info("outbox 轮询启动，cursor=%d", cursor)
+    while True:
+        try:
+            resp = bridge_api(
+                "GET",
+                f"/api/agent/outbox?channel={CHANNEL}&after={cursor}")
+            for m in resp.get("messages", []):
+                ctx = m.get("channel_ctx") or {}
+                user_id = ctx.get("user_id", "")
+                if not user_id:
+                    log.warning("消息 %d 缺 user_id，跳过", m["id"])
+                    cursor = m["id"]
+                    continue
+                try:
+                    wecom_send_text(user_id, m.get("text", ""))
+                    log.info("已发回企业微信 id=%d user=%s",
+                             m["id"], user_id[:8])
+                except Exception as e:
+                    log.error("发送失败 id=%d: %s", m["id"], e)
+                    break  # 下轮重试，不推进 cursor
+                cursor = m["id"]
+                save_cursor(cursor)
+        except Exception as e:
+            log.warning("outbox 轮询失败: %s", e)
+        time.sleep(3)
+
+
+def main():
+    if not all([WECOM_CORP_ID, WECOM_AGENT_ID, WECOM_SECRET]):
+        log.error("必须设置 WECOM_CORP_ID / WECOM_AGENT_ID / WECOM_SECRET")
+        sys.exit(1)
+    if not BRIDGE_TOKEN:
+        log.error("必须设置 BRIDGE_TOKEN")
+        sys.exit(1)
+    log.info("企业微信 adapter 启动（ corp=%s agent=%s ）",
+             WECOM_CORP_ID[:6], WECOM_AGENT_ID)
+    outbox_loop()
+
+
+if __name__ == "__main__":
+    main()
