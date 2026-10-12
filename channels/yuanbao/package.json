@@ -1,0 +1,8 @@
+{
+  "name": "muse-yuanbao-bridge",
+  "version": "0.1.0",
+  "description": "Muse assistant bridge for Tencent Yuanbao Bot (wss://bot-wss.yuanbao.tencent.com)",
+  "type": "module",
+  "scripts": { "start": "node src/daemon.js" },
+  "dependencies": { "ws": "^8.18.0", "https-proxy-agent": "^7.0.0" }
+}
