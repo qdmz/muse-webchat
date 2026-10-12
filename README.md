@@ -1,6 +1,6 @@
 # chat-bridge：Muse 多通道聊天桥接（v4）
 
-muse.ai 打不开时，用自建 Web 页面 / 飞书 / 企业微信跟 Muse 聊天。
+muse.ai 打不开时，用自建 Web 页面 / 飞书 / 企业微信 / 微信 / QQ 跟 Muse 聊天。
 bridge.py 纯 Python 标准库单文件；各平台经独立 adapter 接入，不动核心。
 
 ## 架构
@@ -16,6 +16,14 @@ bridge.py 纯 Python 标准库单文件；各平台经独立 adapter 接入，�
 - **Web**：浏览器直连，`channel=web`
 - **飞书**：`feishu_adapter.py` 经官方 SDK WebSocket 长连接收消息（纯出站，无需公网入站），轮询 outbox 发回
 - **企业微信**：bridge 内置 `/api/channel/wecom/callback` 收微信服务器回调（需公网 HTTPS），`wecom_adapter.py` 轮询 outbox 经企业微信 API 发回
+
+## 独立通道（channels/）
+
+除 bridge.py 中枢外，另有独立 daemon 式通道（inbox/outbox + hook 唤醒，不依赖 bridge.py）：
+
+- **微信 ClawBot**（`channels/wechat/`）：微信官方插件，iLink 协议纯 HTTP/JSON，扫码绑定，私聊收发
+- **QQ Bot**（`channels/qq/`）：QQ 官方开放平台，WebSocket 网关收消息 + REST 发消息，需固定 IP 服务器
+- **企业微信智能机器人**：见 `muse-wecom-bridge`（独立仓库，WebSocket 长连接）
 
 ## 功能（v2 全部保留）
 

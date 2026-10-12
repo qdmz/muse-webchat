@@ -1,0 +1,17 @@
+{
+  "name": "muse-wechat-bridge",
+  "version": "0.1.0",
+  "description": "Muse assistant bridge for WeChat ClawBot (official iLink protocol)",
+  "type": "module",
+  "scripts": {
+    "build": "echo 'no build step (pure ESM)'",
+    "start": "node src/daemon.js",
+    "qrcode": "node src/qrcode.js",
+    "doctor": "bash doctor.sh"
+  },
+  "dependencies": {
+    "https-proxy-agent": "^9.1.0",
+    "qrcode": "^1.5.4",
+    "qrcode-terminal": "^0.12.0"
+  }
+}

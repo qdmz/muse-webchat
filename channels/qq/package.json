@@ -1,0 +1,14 @@
+{
+  "name": "muse-qq-bridge",
+  "version": "0.1.0",
+  "description": "Muse assistant bridge for QQ Bot (official QQ open platform API)",
+  "type": "module",
+  "scripts": {
+    "start": "node src/daemon.js",
+    "doctor": "bash doctor.sh"
+  },
+  "dependencies": {
+    "https-proxy-agent": "^9.1.0",
+    "ws": "^8.22.0"
+  }
+}

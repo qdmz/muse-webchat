@@ -1,0 +1,9 @@
+*/secrets.env
+*/bot_token.json
+*/cursor.txt
+*/node_modules/
+*/inbox/*.json
+*/outbox/*.json
+*/sent/
+*/stream/
+*/expired/

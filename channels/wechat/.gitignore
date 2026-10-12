@@ -1,0 +1,12 @@
+bot_token.json
+cursor.txt
+node_modules/
+inbox/*.json
+inbox/*.claimed
+outbox/*.json
+sent/
+stream/
+expired/
+daemon.log
+*.pid
+*.lock
