@@ -1,0 +1,8 @@
+{
+  "name": "muse-telegram-bridge",
+  "version": "0.1.0",
+  "description": "Muse assistant bridge for Telegram Bot API (dual-bot)",
+  "type": "module",
+  "scripts": { "start": "node src/daemon.js" },
+  "dependencies": { "https-proxy-agent": "^7.0.0" }
+}

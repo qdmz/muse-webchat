@@ -24,6 +24,7 @@ bridge.py 纯 Python 标准库单文件；各平台经独立 adapter 接入，�
 - **微信 ClawBot**（`channels/wechat/`）：微信官方插件，iLink 协议纯 HTTP/JSON，扫码绑定，私聊收发
 - **QQ Bot**（`channels/qq/`）：QQ 官方开放平台，WebSocket 网关收消息 + REST 发消息，需固定 IP 服务器
 - **元宝 Bot**（`channels/yuanbao/`）：腾讯元宝自定义机器人，sign-token + WSS protobuf 长连接，私聊/群聊收发
+- **Telegram Bot**（`channels/telegram/`）：Telegram Bot API，双 bot 同时在线，getUpdates 长轮询，文字/图片/文件/语音/视频收发
 - **企业微信智能机器人**：见 `muse-wecom-bridge`（独立仓库，WebSocket 长连接）
 
 ## 功能（v2 全部保留）
