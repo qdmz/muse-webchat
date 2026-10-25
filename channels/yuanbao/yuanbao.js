@@ -157,18 +157,180 @@ function textBody(text) {
   return Buffer.from(el);
 }
 
-export function buildSendC2C({ msgId, toAccount, fromAccount, text }) {
+export function buildSendC2C({ msgId, toAccount, fromAccount, text, body = null }) {
   const b = [];
   wstr(b, 1, msgId); wstr(b, 2, toAccount); wstr(b, 3, fromAccount);
-  wbytes(b, 5, textBody(text));
+  wbytes(b, 5, body || textBody(text));
   return connMsg(0, "send_c2c_message", msgId, "yuanbao_openclaw_proxy", Buffer.from(b));
 }
 
-export function buildSendGroup({ msgId, groupCode, fromAccount, text }) {
+export function buildSendGroup({ msgId, groupCode, fromAccount, text, body = null }) {
   const b = [];
   wstr(b, 1, msgId); wstr(b, 2, groupCode); wstr(b, 3, fromAccount);
-  wbytes(b, 6, textBody(text));
+  wbytes(b, 6, body || textBody(text));
   return connMsg(0, "send_group_message", msgId, "yuanbao_openclaw_proxy", Buffer.from(b));
+}
+
+// ---------- 媒体元素（2026-10-25 由 nanoMuse yuanbao 渠道实测版回灌） ----------
+function element(type, mcBuf) {
+  const el = []; wstr(el, 1, type); wbytes(el, 2, mcBuf);
+  return Buffer.from(el);
+}
+
+export function imageBody({ url, uuid, size, width, height }) {
+  const info = [];
+  wvar(info, 1, 1); wvar(info, 2, size); wvar(info, 3, width); wvar(info, 4, height); wstr(info, 5, url);
+  const mc = [];
+  wstr(mc, 2, uuid); wvar(mc, 3, 255); wbytes(mc, 8, Buffer.from(info));
+  return element("TIMImageElem", Buffer.from(mc));
+}
+
+export function fileBody({ url, uuid, name, size, video = false }) {
+  const mc = [];
+  wstr(mc, 2, uuid); wstr(mc, 10, url); wvar(mc, 11, size);
+  if (!video) wstr(mc, 12, name);
+  return element(video ? "TIMVideoElem" : "TIMFileElem", Buffer.from(mc));
+}
+
+/** 解析图片尺寸（PNG/GIF/JPEG），失败返回 [0, 0] */
+export function imageSize(buf) {
+  if (buf.length >= 24 && buf.slice(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))) {
+    return [buf.readUInt32BE(16), buf.readUInt32BE(20)];
+  }
+  if (buf.length >= 10 && /^GIF8[79]a$/.test(buf.slice(0, 6).toString("ascii"))) {
+    return [buf.readUInt16LE(6), buf.readUInt16LE(8)];
+  }
+  if (buf.length >= 4 && buf[0] === 0xff && buf[1] === 0xd8) {
+    let i = 2;
+    while (i + 9 < buf.length) {
+      if (buf[i] !== 0xff) { i++; continue; }
+      const marker = buf[i + 1];
+      if (marker === 0xc0 || marker === 0xc1 || marker === 0xc2) {
+        return [buf.readUInt16BE(i + 7), buf.readUInt16BE(i + 5)];
+      }
+      i += 2 + buf.readUInt16BE(i + 2);
+    }
+  }
+  return [0, 0];
+}
+
+// ---------- 业务 REST + COS 上传 ----------
+function httpsJsonReq(urlStr, { method = "POST", headers = {}, body = null, timeoutMs = 30000 } = {}) {
+  return new Promise((resolve, reject) => {
+    const u = new URL(urlStr);
+    const data = body ? JSON.stringify(body) : null;
+    const req = https.request({
+      hostname: u.hostname, port: u.port || 443, path: u.pathname + u.search,
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        ...(data ? { "Content-Length": Buffer.byteLength(data) } : {}),
+        ...headers,
+      },
+      agent: AGENT, timeout: timeoutMs,
+    }, (res) => {
+      const chunks = [];
+      res.on("data", (c) => chunks.push(c));
+      res.on("end", () => {
+        try { resolve(JSON.parse(Buffer.concat(chunks).toString("utf8"))); }
+        catch { reject(new Error(`非 JSON 响应: ${res.statusCode}`)); }
+      });
+    });
+    req.on("timeout", () => req.destroy(new Error("请求超时")));
+    req.on("error", reject);
+    if (data) req.write(data);
+    req.end();
+  });
+}
+
+function httpsPutRaw(urlStr, headers, data, timeoutMs = 60000) {
+  return new Promise((resolve, reject) => {
+    const u = new URL(urlStr);
+    const req = https.request({
+      hostname: u.hostname, port: u.port || 443, path: u.pathname + u.search,
+      method: "PUT",
+      headers: { "Content-Length": data.length, ...headers },
+      agent: AGENT, timeout: timeoutMs,
+    }, (res) => {
+      const chunks = [];
+      res.on("data", (c) => chunks.push(c));
+      res.on("end", () => resolve({ status: res.statusCode, body: Buffer.concat(chunks).toString("utf8") }));
+    });
+    req.on("timeout", () => req.destroy(new Error("COS 上传超时")));
+    req.on("error", reject);
+    req.write(data);
+    req.end();
+  });
+}
+
+const quoteStrict = (s) => encodeURIComponent(String(s)).replace(/[!()*]/g, (c) => "%" + c.charCodeAt(0).toString(16).toUpperCase());
+const hmacSha1Hex = (key, msg) => crypto.createHmac("sha1", key).update(msg).digest("hex");
+
+function cosAuthorization(secretId, secretKey, pathname, headers, start, expired) {
+  const keyTime = `${start};${expired}`;
+  const signKey = hmacSha1Hex(secretKey, keyTime);
+  const keys = Object.keys(headers).map((k) => k.toLowerCase()).sort();
+  const byLower = Object.fromEntries(Object.entries(headers).map(([k, v]) => [k.toLowerCase(), v]));
+  const httpHeaders = keys.map((k) => `${k}=${quoteStrict(byLower[k])}`).join("&");
+  const httpString = `put\n${pathname}\n\n${httpHeaders}\n`;
+  const sha1 = crypto.createHash("sha1").update(httpString).digest("hex");
+  const stringToSign = `sha1\n${keyTime}\n${sha1}\n`;
+  const signature = hmacSha1Hex(signKey, stringToSign);
+  return `q-sign-algorithm=sha1&q-ak=${secretId}&q-sign-time=${keyTime}&q-key-time=${keyTime}&q-header-list=${keys.join(";")}&q-url-param-list=&q-signature=${signature}`;
+}
+
+const MIME_BY_EXT = {
+  ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".gif": "image/gif",
+  ".webp": "image/webp", ".mp4": "video/mp4", ".mov": "video/quicktime",
+  ".mp3": "audio/mpeg", ".pdf": "application/pdf", ".zip": "application/zip",
+  ".txt": "text/plain", ".md": "text/markdown", ".json": "application/json",
+};
+
+/**
+ * 把媒体字节上传到元宝 COS，返回 { url, uuid, size, width, height, mime }。
+ * tokenInfo: { botId, token, source }（sign-token 的结果）。
+ */
+export async function uploadYuanbaoMedia({ tokenInfo, data, fileName }) {
+  if (data.length > 20 * 1024 * 1024) throw new Error("文件超过元宝 20MB 上限");
+  const cfg = await httpsJsonReq(`${API_BASE}/api/resource/genUploadInfo`, {
+    headers: { "X-ID": tokenInfo.botId, "X-Token": tokenInfo.token, "X-Source": tokenInfo.source || "web" },
+    body: { fileName, fileId: crypto.randomBytes(16).toString("hex"), docFrom: "localDoc", docOpenId: "" },
+  });
+  const flat = {};
+  for (const src of [cfg, cfg.encryptConfig, cfg.credentials, cfg.tmpCredentials]) {
+    if (src && typeof src === "object") for (const [k, v] of Object.entries(src)) if (!(k in flat)) flat[k] = v;
+  }
+  const secretId = flat.encryptTmpSecretId || flat.tmpSecretId;
+  const secretKey = flat.encryptTmpSecretKey || flat.tmpSecretKey;
+  const token = flat.encryptToken || flat.sessionToken || flat.token || "";
+  const { bucketName: bucket, region, location } = flat;
+  if (!secretId || !secretKey || !bucket || !region || !location) {
+    throw new Error(`genUploadInfo 返回不完整: ${Object.keys(flat).slice(0, 14).join(",")}`);
+  }
+  const host = `${bucket}.cos.${region}.myqcloud.com`;
+  const pathname = "/" + String(location).replace(/^\/+/, "");
+  const signHeaders = { host, "content-length": String(data.length) };
+  if (token) signHeaders["x-cos-security-token"] = String(token);
+  const auth = cosAuthorization(
+    String(secretId), String(secretKey), pathname, signHeaders,
+    Number(flat.startTime) || Math.floor(Date.now() / 1000),
+    Number(flat.expiredTime) || Math.floor(Date.now() / 1000) + 1800
+  );
+  const ext = (fileName.match(/\.[^.]+$/) || [""])[0].toLowerCase();
+  const mime = MIME_BY_EXT[ext] || "application/octet-stream";
+  const headers = { Authorization: auth, "Content-Type": mime };
+  if (token) headers["x-cos-security-token"] = String(token);
+  if (mime.startsWith("image/")) {
+    headers["Pic-Operations"] = JSON.stringify({ is_pic_info: 1, rules: [{ fileid: String(location), rule: "imageMogr2/format/jpg" }] });
+  }
+  const r = await httpsPutRaw(`https://${host}${pathname}`, headers, data);
+  if (r.status >= 300) throw new Error(`COS 上传失败: HTTP ${r.status} ${r.body.slice(0, 160)}`);
+  const [width, height] = mime.startsWith("image/") ? imageSize(data) : [0, 0];
+  return {
+    url: String(flat.resourceUrl || `https://${host}${pathname}`),
+    uuid: crypto.createHash("md5").update(data).digest("hex"),
+    size: data.length, width, height, mime,
+  };
 }
 
 /** 解析 inbound push → {msgId, fromAccount, nickname, groupCode, groupName, text} */

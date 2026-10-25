@@ -36,8 +36,13 @@ function httpsJson(urlStr, { method = "GET", headers = {}, body = null, timeoutM
       const chunks = [];
       res.on("data", (c) => chunks.push(c));
       res.on("end", () => {
-        try { resolve(JSON.parse(Buffer.concat(chunks).toString("utf8"))); }
-        catch { reject(new Error(`非 JSON 响应: ${res.statusCode}`)); }
+        let j;
+        try { j = JSON.parse(Buffer.concat(chunks).toString("utf8")); }
+        catch { reject(new Error(`非 JSON 响应: ${res.statusCode}`)); return; }
+        // QQ 接口业务错误码：code 非 0 即失败（之前这里直接 resolve，
+        // 导致失败也被记成"已发出"的假阳性）
+        if (j && j.code) { reject(new Error(`QQ API 错误: code=${j.code} ${j.message || ""}`)); return; }
+        resolve(j);
       });
     });
     req.on("timeout", () => req.destroy(new Error("请求超时")));
@@ -79,11 +84,32 @@ export class QQBot {
     return { "Authorization": `QQBot ${token}` };
   }
 
-  /** 发私聊消息 */
-  async sendC2C({ userOpenid, content, msgId = null, msgSeq = 1 }) {
+  /**
+   * 上传富媒体文件（官方两步流程第一步），返回 file_info。
+   * file_type: 1=图片 2=视频 3=语音 4=文件；srv_send_msg=false 只上传不发送。
+   * （2026-10-25 由 nanoMuse qq 渠道实测版回灌：私聊/群聊均可用。）
+   */
+  async uploadRichFile({ kind, targetId, fileType, dataB64 }) {
     const token = await this.getAccessToken();
-    const body = { content, msg_type: 0, msg_seq: msgSeq };
-    if (msgId) body.msg_id = msgId; // 被动回复（5分钟窗口）
+    const scope = kind === "group_at" ? "groups" : "users";
+    const r = await httpsJson(`${API_BASE}/v2/${scope}/${targetId}/files`, {
+      method: "POST",
+      headers: this.authHeaders(token),
+      body: { file_type: fileType, file_data: dataB64, srv_send_msg: false },
+      timeoutMs: 60000,
+    });
+    if (!r.file_info) throw new Error(`上传未返回 file_info: ${JSON.stringify(r).slice(0, 200)}`);
+    return r.file_info;
+  }
+
+  /** 发私聊消息（content / imageUrl / media 三选一或组合；media 为 uploadRichFile 的返回值） */
+  async sendC2C({ userOpenid, content, msgId = null, msgSeq = 1, imageUrl = null, media = null }) {
+    const token = await this.getAccessToken();
+    const body = { msg_type: media ? 7 : imageUrl ? 1 : 0, msg_seq: msgSeq };
+    if (content) body.content = content;
+    if (imageUrl) body.image = imageUrl;
+    if (media) body.media = { file_info: media };
+    if (msgId) body.msg_id = msgId; // 被动回复（私聊窗口约 55 分钟）
     return httpsJson(`${API_BASE}/v2/users/${userOpenid}/messages`, {
       method: "POST",
       headers: this.authHeaders(token),
@@ -91,10 +117,13 @@ export class QQBot {
     });
   }
 
-  /** 发群聊消息 */
-  async sendGroup({ groupOpenid, content, msgId = null, msgSeq = 1 }) {
+  /** 发群聊消息（被动回复窗口约 5 分钟） */
+  async sendGroup({ groupOpenid, content, msgId = null, msgSeq = 1, imageUrl = null, media = null }) {
     const token = await this.getAccessToken();
-    const body = { content, msg_type: 0, msg_seq: msgSeq };
+    const body = { msg_type: media ? 7 : imageUrl ? 1 : 0, msg_seq: msgSeq };
+    if (content) body.content = content;
+    if (imageUrl) body.image = imageUrl;
+    if (media) body.media = { file_info: media };
     if (msgId) body.msg_id = msgId;
     return httpsJson(`${API_BASE}/v2/groups/${groupOpenid}/messages`, {
       method: "POST",
@@ -208,14 +237,15 @@ export class QQBot {
       });
       return;
     }
-    // 群@消息
+    // 群@消息（群事件 author 里是 member_openid，没有 user_openid —— 2026-10-25 实测教训）
     if (t === "GROUP_AT_MESSAGE_CREATE") {
       const d = p.d;
       this.onMessage?.({
         kind: "group_at",
         messageId: d.id,
         groupOpenid: d.group_openid,
-        userOpenid: d.author?.user_openid,
+        userOpenid: d.author?.member_openid || d.author?.user_openid || d.author?.id,
+        senderName: d.author?.username || "",
         content: d.content?.trim() || "",
         timestamp: d.timestamp,
         msgSeq: d.msg_seq || 1,

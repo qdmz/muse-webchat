@@ -10,6 +10,7 @@ import { HttpsProxyAgent } from "https-proxy-agent";
 import {
   getSignToken, buildAuthBind, buildPushAck, buildPing,
   buildSendC2C, buildSendGroup, parseHead, parseInbound, WS_URL,
+  uploadYuanbaoMedia, imageBody, fileBody,
 } from "./yuanbao.js";
 
 const ROOT = path.resolve(new URL(".", import.meta.url).pathname, "..");
@@ -92,17 +93,40 @@ async function drainOutbox() {
     let rep;
     try { rep = JSON.parse(fs.readFileSync(p, "utf8")); }
     catch { fs.renameSync(p, path.join(dirs.expired, f + ".badjson")); continue; }
-    if (!rep.text?.trim() || !authed) continue;
-    const msgId = `muse_${crypto.randomUUID().replace(/-/g, "").slice(0, 16)}`;
+    const mediaPath = rep.imageFile || rep.videoFile || rep.filePath || null;
+    if ((!rep.text?.trim() && !mediaPath) || !authed) continue;
+    const newMsgId = () => `muse_${crypto.randomUUID().replace(/-/g, "").slice(0, 16)}`;
+    const sendFrame = (opts) =>
+      rep.chatType === "group"
+        ? buildSendGroup({ groupCode: rep.targetId, fromAccount: botId, ...opts })
+        : buildSendC2C({ toAccount: rep.targetId, fromAccount: botId, ...opts });
     try {
-      const buf = rep.chatType === "group"
-        ? buildSendGroup({ msgId, groupCode: rep.targetId, fromAccount: botId, text: rep.text.slice(0, 4000) })
-        : buildSendC2C({ msgId, toAccount: rep.targetId, fromAccount: botId, text: rep.text.slice(0, 4000) });
-      ws.send(buf);
+      if (rep.text?.trim()) {
+        ws.send(sendFrame({ msgId: newMsgId(), text: rep.text.slice(0, 4000) }));
+      }
+      if (mediaPath) {
+        // 2026-10-25 回灌：出站媒体（先传 COS，再发 TIM 元素消息）
+        if (!fs.existsSync(mediaPath)) throw new Error(`媒体文件不存在: ${mediaPath}`);
+        const data = fs.readFileSync(mediaPath);
+        const tokenInfo = await getToken();
+        const up = await uploadYuanbaoMedia({ tokenInfo, data, fileName: path.basename(mediaPath) });
+        const el = rep.imageFile
+          ? imageBody({ url: up.url, uuid: up.uuid, size: up.size, width: up.width, height: up.height })
+          : fileBody({ url: up.url, uuid: up.uuid, name: path.basename(mediaPath), size: up.size, video: !!rep.videoFile });
+        ws.send(sendFrame({ msgId: newMsgId(), body: el }));
+        console.log(`[send] 📎 已发出媒体 ${path.basename(mediaPath)}`);
+      }
       fs.renameSync(p, path.join(dirs.sent, f));
       console.log(`[send] ✅ 已发出 (${rep.messageId?.slice(0, 8)}…)`);
     } catch (e) {
       console.error(`[send] ❌ 失败: ${e.message}`);
+      rep._attempts = (rep._attempts || 0) + 1;
+      rep._lastError = e.message;
+      try { fs.writeFileSync(p, JSON.stringify(rep, null, 2)); } catch {}
+      if (/不存在/.test(e.message) || rep._attempts >= 5) {
+        fs.renameSync(p, path.join(dirs.expired, f + ".failed"));
+        console.error(`[send] 🗄 已归档为永久失败: ${f}`);
+      }
     }
   }
 }
