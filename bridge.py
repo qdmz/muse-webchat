@@ -47,6 +47,7 @@ import mimetypes
 import os
 import re
 import secrets
+import shutil
 import threading
 import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -60,10 +61,21 @@ MSG_FILE = os.path.join(DATA_DIR, "messages.json")
 PASSWORD = os.environ.get("BRIDGE_PASSWORD", "")
 AGENT_TOKEN = os.environ.get("BRIDGE_TOKEN", "")
 MAX_UPLOAD = 20 * 1024 * 1024  # 20MB
+# 密码配置文件（改密码接口会重写该文件的 BRIDGE_PASSWORD 行；
+# 测试时可用 BRIDGE_PW_FILE 环境变量指向别处，避免误写生产配置）
+PW_ENV_FILE = os.environ.get("BRIDGE_PW_FILE",
+                             "/home/hatch/.config/chat-bridge/server.env")
 
 # 企业微信回调配置（可选；配了才启用 /api/channel/wecom/callback）
-# 从 ~/.config/chat-bridge/wecom.env 加载：WECOM_CORP_ID / WECOM_AGENT_ID /
-# WECOM_SECRET / WECOM_TOKEN / WECOM_ENCODING_AES_KEY
+# 从 /home/hatch/.config/chat-bridge/wecom.env 加载：WECOM_CORP_ID / WECOM_AGENT_ID /
+# WECOM_SECRET / WECOM_TOKEN / WECOM_ENCODING_AES_KEY（与 wecom_adapter 共用一份）
+_WECOM_ENV = "/home/hatch/.config/chat-bridge/wecom.env"
+if os.path.isfile(_WECOM_ENV):
+    for _line in open(_WECOM_ENV, encoding="utf-8"):
+        _line = _line.strip()
+        if _line and not _line.startswith("#") and "=" in _line:
+            _k, _v = _line.split("=", 1)
+            os.environ.setdefault(_k.strip(), _v.strip().strip("\"'"))
 WECOM_TOKEN = os.environ.get("WECOM_TOKEN", "")
 WECOM_AES_KEY = os.environ.get("WECOM_ENCODING_AES_KEY", "")
 WECOM_CORP_ID = os.environ.get("WECOM_CORP_ID", "")
@@ -208,6 +220,400 @@ def parse_multipart(body, boundary):
     return parts
 
 
+# ============ 文件管理器 + 系统监控（v3.1，标准库实现）============
+# 文件根目录（越狱保护：所有路径 realpath 后必须落在该目录内）
+FILES_ROOT = os.path.realpath(os.environ.get("BRIDGE_FILES_ROOT", "/home/hatch"))
+FM_MAX_READ = 1024 * 1024        # 在线查看/编辑上限 1MB
+FM_MAX_WRITE = 5 * 1024 * 1024   # 单次写入上限 5MB
+
+_TEXT_EXTS = {".txt", ".md", ".markdown", ".py", ".js", ".cjs", ".mjs", ".ts",
+              ".json", ".yaml", ".yml", ".toml", ".ini", ".cfg", ".conf", ".sh",
+              ".css", ".html", ".htm", ".xml", ".log", ".service", ".sql",
+              ".go", ".rs", ".java", ".c", ".h", ".cpp", ".env"}
+
+
+def _fm_resolve(rel):
+    """相对路径 → FILES_ROOT 内的绝对路径；越界返回 None"""
+    rel = (rel or "").strip().lstrip("/")
+    p = os.path.realpath(os.path.join(FILES_ROOT, rel)) if rel else FILES_ROOT
+    if p != FILES_ROOT and not p.startswith(FILES_ROOT + os.sep):
+        return None
+    return p
+
+
+def _fm_rel(abspath):
+    r = os.path.relpath(abspath, FILES_ROOT)
+    return "" if r == "." else r
+
+
+def _fm_list(rel):
+    p = _fm_resolve(rel)
+    if not p or not os.path.isdir(p):
+        return None
+    try:
+        names = os.listdir(p)
+    except OSError:
+        return None
+    entries = []
+    for n in names:
+        fp = os.path.join(p, n)
+        try:
+            st = os.lstat(fp)
+        except OSError:
+            continue
+        isdir = os.path.isdir(fp)
+        entries.append({"name": n, "type": "dir" if isdir else "file",
+                        "size": 0 if isdir else st.st_size,
+                        "mtime": int(st.st_mtime),
+                        "link": os.path.islink(fp)})
+    entries.sort(key=lambda e: (e["type"] != "dir", e["name"].lower()))
+    return {"path": _fm_rel(p), "entries": entries}
+
+
+def _is_text_file(path):
+    if os.path.splitext(path)[1].lower() in _TEXT_EXTS:
+        return True
+    try:
+        with open(path, "rb") as f:
+            head = f.read(8192)
+        if b"\x00" in head:
+            return False
+        head.decode("utf-8")
+        return True
+    except (OSError, UnicodeDecodeError):
+        return False
+
+
+# ---------- 系统监控（读 /proc，Linux）----------
+_mon_last = {"t": 0.0, "cpu": None, "procs": {}}
+
+
+def _read_stat():
+    out = {}
+    try:
+        with open("/proc/stat") as f:
+            for line in f:
+                if line.startswith("cpu"):
+                    parts = line.split()
+                    out[parts[0]] = list(map(int, parts[1:]))
+    except OSError:
+        pass
+    return out
+
+
+def _cpu_pct(prev, cur):
+    res = {}
+    for k, c in cur.items():
+        p = prev.get(k)
+        if not p:
+            continue
+        dt = sum(c) - sum(p)
+        if dt <= 0:
+            res[k] = 0.0
+            continue
+        idle = (c[3] + c[4]) - (p[3] + p[4]) if len(c) > 4 and len(p) > 4 else c[3] - p[3]
+        res[k] = round(max(0.0, min(100.0, (dt - idle) / dt * 100)), 1)
+    return res
+
+
+def _mem_info():
+    info = {}
+    try:
+        with open("/proc/meminfo") as f:
+            for line in f:
+                k, v = line.split(":", 1)
+                info[k] = int(v.strip().split()[0]) * 1024
+    except OSError:
+        pass
+    total = info.get("MemTotal", 0)
+    avail = info.get("MemAvailable", info.get("MemFree", 0))
+    return {"total": total, "used": max(0, total - avail), "avail": avail}
+
+
+def _disk_info():
+    disks, seen = [], set()
+    try:
+        with open("/proc/mounts") as f:
+            mounts = [l.split()[:2] for l in f]
+    except OSError:
+        mounts = []
+    for _dev, mp in mounts:
+        if mp in seen:
+            continue
+        seen.add(mp)
+        try:
+            st = os.statvfs(mp)
+        except OSError:
+            continue
+        total = st.f_blocks * st.f_frsize
+        free = st.f_bavail * st.f_frsize
+        if total <= 0:
+            continue
+        disks.append({"mount": mp, "total": total, "used": total - free,
+                      "pct": round((total - free) / total * 100, 1)})
+    disks.sort(key=lambda d: (d["mount"] != "/", d["mount"]))
+    return disks[:12]
+
+
+def _net_info():
+    nets = []
+    try:
+        with open("/proc/net/dev") as f:
+            lines = f.readlines()[2:]
+        for line in lines:
+            if ":" not in line:
+                continue
+            name, rest = line.split(":", 1)
+            vals = rest.split()
+            if len(vals) >= 9:
+                nets.append({"iface": name.strip(),
+                             "rx": int(vals[0]), "tx": int(vals[8])})
+    except OSError:
+        pass
+    return nets
+
+
+def _top_procs(prev, interval):
+    procs = []
+    for pid in filter(str.isdigit, os.listdir("/proc")):
+        try:
+            with open(f"/proc/{pid}/stat") as f:
+                s = f.read()
+            rp = s.rfind(")")
+            parts = s[rp + 2:].split()
+            cur = int(parts[11]) + int(parts[12])  # utime + stime (jiffies)
+            name, rss = pid, 0
+            with open(f"/proc/{pid}/status") as f2:
+                for line in f2:
+                    if line.startswith("Name:"):
+                        name = line.split(":", 1)[1].strip()
+                    elif line.startswith("VmRSS:"):
+                        rss = int(line.split()[1]) * 1024
+            old = prev.get(pid)
+            cpu = (cur - old) / 100.0 / interval * 100.0 if old is not None and interval > 0 else 0.0
+            prev[pid] = cur
+            procs.append({"pid": int(pid), "name": name,
+                          "cpu": round(max(0.0, cpu), 1), "rss": rss})
+        except (OSError, IndexError, ValueError):
+            continue
+    # 清理已退出的 pid
+    for pid in [k for k in prev if not os.path.isdir(f"/proc/{k}")]:
+        prev.pop(pid, None)
+    procs.sort(key=lambda x: (-x["cpu"], -x["rss"]))
+    return procs[:12]
+
+
+def _uptime():
+    try:
+        with open("/proc/uptime") as f:
+            return float(f.read().split()[0])
+    except OSError:
+        return 0.0
+
+
+def _monitor_data():
+    global _mon_last
+    s1 = _read_stat()
+    t0 = time.time()
+    interval = max(0.5, t0 - _mon_last["t"]) if _mon_last["t"] else 0.5
+    time.sleep(0.4)
+    s2 = _read_stat()
+    cpu = _cpu_pct(_mon_last["cpu"] or s1, s2)
+    overall = cpu.pop("cpu", 0.0)
+    cores = [{"core": k, "pct": v} for k, v in sorted(cpu.items())]
+    top = _top_procs(_mon_last["procs"], interval + 0.4)
+    _mon_last = {"t": t0 + 0.4, "cpu": s2, "procs": _mon_last["procs"]}
+    return {"cpu": overall, "cores": cores, "mem": _mem_info(),
+            "load": list(os.getloadavg()), "disks": _disk_info(),
+            "net": _net_info(), "top": top, "uptime": _uptime(),
+            "host": os.uname().nodename}
+
+
+FILES_HTML = """<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>文件管理 - Muse 聊天桥接</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#f0f2f5;min-height:100dvh}
+header{background:#1a1d29;color:#fff;padding:12px 16px;font-size:16px;font-weight:600;display:flex;align-items:center;gap:18px}
+header nav{display:flex;gap:4px}
+header nav a{color:#8b93a7;text-decoration:none;font-size:14px;font-weight:400;padding:6px 12px;border-radius:8px}
+header nav a.on{background:#2a2f45;color:#fff}
+#bar{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#fff;border-bottom:1px solid #e5e7eb;flex-wrap:wrap;gap:8px}
+#crumb{font-size:14px;color:#374151;word-break:break-all}
+#crumb a{color:#2563eb;text-decoration:none;cursor:pointer}
+#ops button{background:#eef2ff;color:#1e40af;border:none;border-radius:8px;padding:8px 14px;font-size:14px;cursor:pointer;margin-left:6px}
+table{width:100%;border-collapse:collapse;background:#fff;font-size:14px}
+th,td{text-align:left;padding:10px 16px;border-bottom:1px solid #f3f4f6}
+th{color:#6b7280;font-weight:500;font-size:13px}
+tr.row{cursor:pointer}tr.row:hover{background:#f9fafb}
+td.op{white-space:nowrap}td.op button{background:none;border:none;cursor:pointer;font-size:15px;padding:4px 6px}
+#editor{position:fixed;inset:0;background:#fff;z-index:20;display:none;flex-direction:column}
+#edhead{display:flex;align-items:center;gap:10px;padding:10px 16px;background:#1a1d29;color:#fff}
+#edhead span{flex:1;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#edhead button{background:#2563eb;color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:14px;cursor:pointer}
+#edarea{flex:1;border:none;outline:none;padding:16px;font-size:14px;font-family:ui-monospace,Menlo,monospace;resize:none;white-space:pre}
+#imgview{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:30;display:none;align-items:center;justify-content:center}
+#imgview img{max-width:95%;max-height:95%}
+</style>
+</head>
+<body>
+<header><span>Muse 聊天桥接</span><nav><a href="/">聊天</a><a href="/files" class="on">文件</a><a href="/monitor">监控</a></nav></header>
+<div id="bar"><div id="crumb"></div><div id="ops"><button id="upbtn">⬆ 上一级</button><button id="mkdirbtn">📁 新建文件夹</button><button id="upfilebtn">⬆ 上传文件</button><input id="fileinp" type="file" multiple style="display:none"></div></div>
+<table><thead><tr><th>名称</th><th>大小</th><th>修改时间</th><th>操作</th></tr></thead><tbody id="list"></tbody></table>
+<div id="editor"><div id="edhead"><span id="edpath"></span><button id="savebtn">💾 保存</button><button id="edclose">关闭</button></div><textarea id="edarea" spellcheck="false"></textarea></div>
+<div id="imgview"><img id="imgel" alt=""></div>
+<script>
+let cur="";
+const $=id=>document.getElementById(id);
+function fmtSize(n){if(n>1073741824)return(n/1073741824).toFixed(1)+"GB";if(n>1048576)return(n/1048576).toFixed(1)+"MB";if(n>1024)return(n/1024).toFixed(0)+"KB";return n+"B";}
+function fmtTs(ts){return new Date(ts*1000).toLocaleString("zh-CN",{hour12:false});}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function join(a,b){return a?a+"/"+b:b;}
+async function load(path){
+  const r=await fetch("/api/fm/list?path="+encodeURIComponent(path));
+  if(r.status===401){location.href="/";return;}
+  const j=await r.json();
+  if(j.error){alert(j.error);return;}
+  cur=j.path;
+  let h='<a data-p="">🏠 根</a>';
+  if(cur){let acc="";cur.split("/").forEach(p=>{acc=join(acc,p);h+=' / <a data-p="'+esc(acc)+'">'+esc(p)+"</a>";});}
+  $("crumb").innerHTML=h+' <span style="color:#9ca3af">（'+j.entries.length+' 项）</span>';
+  document.querySelectorAll("#crumb a").forEach(a=>a.onclick=()=>load(a.dataset.p));
+  const tb=$("list");tb.innerHTML="";
+  j.entries.forEach(e=>{
+    const tr=document.createElement("tr");tr.className="row";
+    const icon=e.type==="dir"?(e.link?"🔗📁":"📁"):"📄";
+    const tds=document.createElement("td");tds.innerHTML=icon+" "+esc(e.name);
+    const tsz=document.createElement("td");tsz.textContent=e.type==="dir"?"—":fmtSize(e.size);
+    const tmt=document.createElement("td");tmt.textContent=fmtTs(e.mtime);
+    const top=document.createElement("td");top.className="op";
+    const del=document.createElement("button");del.textContent="🗑";del.title="删除";
+    del.onclick=ev=>{ev.stopPropagation();delEntry(join(cur,e.name),e);};
+    top.appendChild(del);
+    if(e.type==="file"){
+      const dl=document.createElement("button");dl.textContent="⬇";dl.title="下载";
+      dl.onclick=ev=>{ev.stopPropagation();location.href="/api/fm/download?path="+encodeURIComponent(join(cur,e.name));};
+      top.appendChild(dl);
+    }
+    tr.appendChild(tds);tr.appendChild(tsz);tr.appendChild(tmt);tr.appendChild(top);
+    tr.onclick=()=>openEntry(e);
+    tb.appendChild(tr);
+  });
+}
+async function openEntry(e){
+  const p=join(cur,e.name);
+  if(e.type==="dir"){load(p);return;}
+  const ext=e.name.split(".").pop().toLowerCase();
+  if(["png","jpg","jpeg","gif","webp","bmp","svg"].indexOf(ext)>=0){
+    $("imgel").src="/api/fm/download?path="+encodeURIComponent(p);
+    $("imgview").style.display="flex";return;
+  }
+  const r=await fetch("/api/fm/read?path="+encodeURIComponent(p));
+  const j=await r.json();
+  if(j.error){alert(j.error+"（可点 ⬇ 下载）");return;}
+  $("edpath").textContent="/"+p;$("edarea").value=j.content;
+  $("editor").style.display="flex";$("editor").dataset.path=p;
+}
+$("imgview").onclick=()=>{$("imgview").style.display="none";$("imgel").src="";};
+$("edclose").onclick=()=>{$("editor").style.display="none";};
+$("savebtn").onclick=async()=>{
+  const p=$("editor").dataset.path;
+  const r=await fetch("/api/fm/write",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({path:p,content:$("edarea").value})});
+  const j=await r.json();
+  alert(j.ok?"已保存":"保存失败："+(j.error||""));
+};
+async function delEntry(p,e){
+  if(!confirm(e.type==="dir"?("删除文件夹「"+e.name+"」（含内部所有文件）？"):("删除文件「"+e.name+"」？")))return;
+  const r=await fetch("/api/fm/delete",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({path:p,recursive:true})});
+  const j=await r.json();
+  if(j.ok)load(cur);else alert("删除失败："+(j.error||""));
+}
+$("upbtn").onclick=()=>{const i=cur.lastIndexOf("/");load(i<0?"":cur.slice(0,i));};
+$("mkdirbtn").onclick=async()=>{const n=prompt("文件夹名：");if(!n)return;
+  const r=await fetch("/api/fm/mkdir",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({path:join(cur,n)})});
+  const j=await r.json();if(j.ok)load(cur);else alert("失败："+(j.error||""));};
+$("upfilebtn").onclick=()=>$("fileinp").click();
+$("fileinp").onchange=async e=>{
+  for(const f of e.target.files){
+    const fd=new FormData();fd.append("file",f);
+    await fetch("/api/fm/upload?dir="+encodeURIComponent(cur),{method:"POST",body:fd});
+  }
+  e.target.value="";load(cur);
+};
+load("");
+</script>
+</body>
+</html>
+"""
+
+MONITOR_HTML = """<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>系统监控 - Muse 聊天桥接</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#f0f2f5;min-height:100dvh}
+header{background:#1a1d29;color:#fff;padding:12px 16px;font-size:16px;font-weight:600;display:flex;align-items:center;gap:18px}
+header nav{display:flex;gap:4px}
+header nav a{color:#8b93a7;text-decoration:none;font-size:14px;padding:6px 12px;border-radius:8px}
+header nav a.on{background:#2a2f45;color:#fff}
+#grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;padding:16px}
+.card{background:#fff;border-radius:12px;padding:16px;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.card h3{font-size:14px;color:#6b7280;margin-bottom:10px;font-weight:500}
+.big{font-size:28px;font-weight:700}
+.bar{height:8px;background:#f3f4f6;border-radius:4px;margin-top:8px;overflow:hidden}
+.bar i{display:block;height:100%;background:#2563eb;border-radius:4px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+td,th{padding:6px 4px;border-bottom:1px solid #f3f4f6;text-align:left}
+th{color:#9ca3af;font-weight:500}
+.core{display:flex;align-items:center;gap:8px;font-size:12px;margin:3px 0}
+.core .bar{flex:1;margin:0}
+</style>
+</head>
+<body>
+<header><span>Muse 聊天桥接</span><nav><a href="/">聊天</a><a href="/files">文件</a><a href="/monitor" class="on">监控</a></nav><span id="host" style="margin-left:auto;font-size:12px;color:#8b93a7"></span></header>
+<div id="grid">
+<div class="card"><h3>CPU <span id="cpuv" class="big"></span></h3><div id="cores"></div></div>
+<div class="card"><h3>内存</h3><div class="big" id="memv"></div><div class="bar"><i id="membar"></i></div><div id="memt" style="font-size:12px;color:#6b7280;margin-top:6px"></div></div>
+<div class="card"><h3>负载 / 运行时间</h3><div class="big" id="loadv"></div><div id="upt" style="font-size:12px;color:#6b7280;margin-top:6px"></div></div>
+<div class="card"><h3>磁盘</h3><table id="disks"></table></div>
+<div class="card"><h3>网卡（累计流量）</h3><table id="nets"></table></div>
+<div class="card"><h3>Top 进程</h3><table id="top"></table></div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+function fmtSize(n){if(n>1073741824)return(n/1073741824).toFixed(1)+"GB";if(n>1048576)return(n/1048576).toFixed(0)+"MB";return(n/1024).toFixed(0)+"KB";}
+async function tick(){
+  try{
+    const r=await fetch("/api/monitor");
+    if(r.status===401){location.href="/";return;}
+    const j=await r.json();
+    $("host").textContent=j.host||"";
+    $("cpuv").textContent=j.cpu.toFixed(1)+"%";
+    $("cores").innerHTML=j.cores.map(c=>'<div class="core"><span style="width:44px">'+c.core+'</span><div class="bar"><i style="width:'+c.pct+'%"></i></div><span style="width:44px;text-align:right">'+c.pct+'%</span></div>').join("");
+    const mp=j.mem.total?j.mem.used/j.mem.total*100:0;
+    $("memv").textContent=mp.toFixed(1)+"%";$("membar").style.width=mp+"%";
+    $("memt").textContent="已用 "+fmtSize(j.mem.used)+" / 共 "+fmtSize(j.mem.total);
+    $("loadv").textContent=j.load.map(x=>x.toFixed(2)).join("   ");
+    const s=Math.floor(j.uptime);$("upt").textContent="已运行 "+Math.floor(s/86400)+"天 "+Math.floor(s%86400/3600)+"小时 "+Math.floor(s%3600/60)+"分";
+    $("disks").innerHTML="<tr><th>挂载点</th><th>已用 / 总量</th><th>用量</th></tr>"+j.disks.map(d=>"<tr><td>"+d.mount+"</td><td>"+fmtSize(d.used)+" / "+fmtSize(d.total)+"</td><td>"+d.pct+"%</td></tr>").join("");
+    $("nets").innerHTML="<tr><th>网卡</th><th>下行</th><th>上行</th></tr>"+j.net.map(n=>"<tr><td>"+n.iface+"</td><td>"+fmtSize(n.rx)+"</td><td>"+fmtSize(n.tx)+"</td></tr>").join("");
+    $("top").innerHTML="<tr><th>PID</th><th>进程</th><th>CPU%</th><th>内存</th></tr>"+j.top.map(p=>"<tr><td>"+p.pid+"</td><td>"+p.name+"</td><td>"+p.cpu+"</td><td>"+fmtSize(p.rss)+"</td></tr>").join("");
+  }catch(e){}
+}
+tick();setInterval(tick,2000);
+</script>
+</body>
+</html>
+"""
+
+
 CHAT_HTML = """<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -220,6 +626,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei
 header{background:#1a1d29;color:#fff;padding:12px 16px;font-size:16px;font-weight:600;display:flex;justify-content:space-between;align-items:center}
 header .dot{font-size:12px;font-weight:400;color:#8b93a7}
 header .dot.on{color:#4ade80}
+header nav.tabs{display:flex;gap:4px}
+header nav.tabs a{color:#8b93a7;text-decoration:none;font-size:14px;font-weight:400;padding:6px 12px;border-radius:8px}
+header nav.tabs a:hover{color:#fff}
+#gearbtn{background:none;border:none;font-size:18px;cursor:pointer;padding:4px 8px;margin-left:auto}
 #msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
 .msg{max-width:88%;padding:10px 14px;border-radius:14px;font-size:15px;line-height:1.6;word-break:break-word}
 .msg.user{align-self:flex-end;background:#2563eb;color:#fff;border-bottom-right-radius:4px}
@@ -255,7 +665,7 @@ header .dot.on{color:#4ade80}
 </style>
 </head>
 <body>
-<header><span>Muse 聊天桥接</span><span class="dot" id="status">● 连接中</span></header>
+<header><span>Muse 聊天桥接</span><nav class="tabs"><a href="/">聊天</a><a href="/files">文件</a><a href="/monitor">监控</a></nav><button id="gearbtn" title="修改密码">⚙️</button><span class="dot" id="status">● 连接中</span></header>
 <div id="msgs"></div>
 <div id="typing">Muse 正在思考…</div>
 <div id="uploading">上传中…</div>
@@ -367,6 +777,21 @@ document.getElementById('loginbtn').onclick=doLogin;
 document.getElementById('pw').onkeydown=e=>{if(e.key==='Enter')doLogin();};
 sendbtn.onclick=send;
 inp.onkeydown=e=>{if(e.key==='Enter')send();};
+document.getElementById('gearbtn').onclick=async()=>{
+  const oldPw=prompt('请输入当前密码：');
+  if(!oldPw)return;
+  const p1=prompt('请输入新密码（至少6位）：');
+  if(!p1||p1.length<6){alert('新密码至少6位');return;}
+  if(p1.indexOf(String.fromCharCode(10))>=0||p1.indexOf(String.fromCharCode(13))>=0){alert('新密码不能含换行');return;}
+  const p2=prompt('请再输入一次新密码：');
+  if(p1!==p2){alert('两次输入不一致');return;}
+  try{
+    const r=await fetch('/api/change-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({old_password:oldPw,new_password:p1})});
+    const j=await r.json();
+    if(j.ok){alert('密码已修改，请重新登录');location.reload();}
+    else alert('修改失败：'+(j.error||'未知错误'));
+  }catch(e){alert('请求失败');}
+};
 setInterval(poll,3000);
 fetch('/api/poll?after=0').then(r=>{if(r.ok){document.getElementById('login').style.display='none';loggedIn=true;inp.disabled=false;sendbtn.disabled=false;poll();}});
 </script>
@@ -483,9 +908,17 @@ class Handler(BaseHTTPRequestHandler):
             return self._json(200, {"messages": get_messages(after=after)})
 
         if u.path.startswith("/files/"):
-            if not check_session(self.headers.get("Cookie")):
-                return self._json(401, {"error": "login required"})
             key = u.path[len("/files/"):]
+            if key.startswith("o_"):
+                # Agent-produced output files: the web session OR the agent
+                # token (delegate clients fetch what the main agent hands
+                # back through these links). User uploads (u_) stay
+                # session-only here; agents use /api/agent/attachment.
+                if not (check_session(self.headers.get("Cookie")) or
+                        check_agent_token(self.headers.get("Authorization"))):
+                    return self._json(401, {"error": "login required"})
+            elif not check_session(self.headers.get("Cookie")):
+                return self._json(401, {"error": "login required"})
             if key.startswith("u_"):
                 fid = key[2:]
                 if not re.fullmatch(r"[A-Za-z0-9_\-]+", fid):
@@ -499,6 +932,63 @@ class Handler(BaseHTTPRequestHandler):
                 return self._serve_file(os.path.join(OUTBOX_DIR, name),
                                         download_name=name)
             return self._json(404, {"error": "not found"})
+
+        if u.path == "/files":
+            if not check_session(self.headers.get("Cookie")):
+                return self._json(401, {"error": "login required"})
+            return self._html(200, FILES_HTML)
+
+        if u.path == "/monitor":
+            if not check_session(self.headers.get("Cookie")):
+                return self._json(401, {"error": "login required"})
+            return self._html(200, MONITOR_HTML)
+
+        if u.path == "/api/fm/list":
+            if not check_session(self.headers.get("Cookie")):
+                return self._json(401, {"error": "login required"})
+            res = _fm_list(q.get("path", [""])[0])
+            if res is None:
+                return self._json(404, {"error": "no such directory"})
+            return self._json(200, res)
+
+        if u.path == "/api/fm/read":
+            if not check_session(self.headers.get("Cookie")):
+                return self._json(401, {"error": "login required"})
+            p = _fm_resolve(q.get("path", [""])[0])
+            if not p or not os.path.isfile(p):
+                return self._json(404, {"error": "not found"})
+            if os.path.getsize(p) > FM_MAX_READ or not _is_text_file(p):
+                return self._json(400, {"error": "not a text file or too large"})
+            try:
+                with open(p, "r", encoding="utf-8") as f:
+                    return self._json(200, {"content": f.read()})
+            except (OSError, UnicodeDecodeError):
+                return self._json(400, {"error": "read failed"})
+
+        if u.path == "/api/fm/download":
+            if not check_session(self.headers.get("Cookie")):
+                return self._json(401, {"error": "login required"})
+            p = _fm_resolve(q.get("path", [""])[0])
+            if not p or not os.path.isfile(p):
+                return self._json(404, {"error": "not found"})
+            return self._serve_file(p, download_name=os.path.basename(p))
+
+        if u.path == "/api/fm/sysinfo":
+            if not check_session(self.headers.get("Cookie")):
+                return self._json(401, {"error": "login required"})
+            try:
+                st = os.statvfs(FILES_ROOT)
+                total = st.f_blocks * st.f_frsize
+                free = st.f_bavail * st.f_frsize
+            except OSError:
+                total = free = 0
+            return self._json(200, {"root": FILES_ROOT,
+                                   "disk_total": total, "disk_free": free})
+
+        if u.path == "/api/monitor":
+            if not check_session(self.headers.get("Cookie")):
+                return self._json(401, {"error": "login required"})
+            return self._json(200, _monitor_data())
 
         if u.path in ("/", "/index.html"):
             return self._html(200, CHAT_HTML)
@@ -532,6 +1022,46 @@ class Handler(BaseHTTPRequestHandler):
                 return self._json(200, {"ok": True},
                                   cookie=f"cb_session={tok}; Path=/; HttpOnly; Max-Age={SESSION_TTL}")
             return self._json(401, {"error": "bad password"})
+
+        if u.path == "/api/change-password":
+            # 登录用户自助改密码：校验旧密码 → 重写配置文件 → 内存哈希即时生效 → 全 session 失效
+            if not check_session(self.headers.get("Cookie")):
+                return self._json(401, {"error": "login required"})
+            body = self._json_body()
+            old_pw = body.get("old_password", "")
+            new_pw = body.get("new_password", "")
+            if not check_password(old_pw):
+                return self._json(403, {"error": "当前密码不正确"})
+            if (not isinstance(new_pw, str) or not 6 <= len(new_pw) <= 128
+                    or "\n" in new_pw or "\r" in new_pw):
+                return self._json(400, {"error": "新密码需 6-128 位，不能含换行"})
+            try:
+                with open(PW_ENV_FILE, "r", encoding="utf-8") as f:
+                    lines = f.read().splitlines()
+            except OSError as e:
+                return self._json(500, {"error": "读配置失败: %s" % e})
+            out, found = [], False
+            for ln in lines:
+                if ln.startswith("BRIDGE_PASSWORD=") and not found:
+                    out.append("BRIDGE_PASSWORD=" + new_pw)
+                    found = True
+                else:
+                    out.append(ln)
+            if not found:
+                out.append("BRIDGE_PASSWORD=" + new_pw)
+            try:
+                tmp = PW_ENV_FILE + ".tmp"
+                with open(tmp, "w", encoding="utf-8") as f:
+                    f.write("\n".join(out) + "\n")
+                os.chmod(tmp, 0o600)
+                os.replace(tmp, PW_ENV_FILE)
+            except OSError as e:
+                return self._json(500, {"error": "写配置失败: %s" % e})
+            global SALT, PW_HASH
+            SALT = secrets.token_hex(16)
+            PW_HASH = hashlib.sha256((SALT + new_pw).encode()).hexdigest()
+            SESSIONS.clear()
+            return self._json(200, {"ok": True})
 
         if u.path == "/api/send":
             if not check_session(self.headers.get("Cookie")):
@@ -585,9 +1115,51 @@ class Handler(BaseHTTPRequestHandler):
             text = (body.get("text") or "").strip()
             if not text:
                 return self._json(400, {"error": "empty"})
+            atts = []
+            for fid in (body.get("attachments") or [])[:5]:
+                if not re.fullmatch(r"[A-Za-z0-9_\-]+", str(fid)):
+                    continue
+                for fn in os.listdir(UPLOAD_DIR):
+                    if fn.startswith(str(fid) + "_"):
+                        fp = os.path.join(UPLOAD_DIR, fn)
+                        atts.append({"fid": str(fid), "name": fn[len(str(fid)) + 1:],
+                                     "size": os.path.getsize(fp),
+                                     "mime": mimetypes.guess_type(fp)[0] or
+                                             "application/octet-stream"})
+                        break
             msg = add_message("assistant", text[:20000],
-                              reply_to=body.get("reply_to"))
+                              reply_to=body.get("reply_to"),
+                              attachments=atts or None)
             return self._json(200, {"ok": True, "id": msg["id"]})
+
+        if u.path == "/api/delegate":
+            # nanomuse 的 ask_muse 工具把重活委托给主 agent：任务入桥为 delegate
+            # 渠道消息（主 agent 会被唤醒处理），本请求长轮询等主 agent 在该
+            # 渠道的回复——回复经 reply_to 自动继承 channel_ctx 里的 delegate_id。
+            if not check_agent_token(self.headers.get("Authorization")):
+                return self._json(401, {"error": "unauthorized"})
+            body = self._json_body()
+            task = (body.get("task") or "").strip()
+            if not task:
+                return self._json(400, {"error": "empty"})
+            try:
+                wait_s = int(body.get("wait_s") or 240)
+            except (TypeError, ValueError):
+                wait_s = 240
+            wait_s = max(10, min(280, wait_s))
+            did = secrets.token_hex(6)
+            msg = add_message("user", "［nanomuse 委托］" + task[:3000],
+                              channel="delegate",
+                              channel_ctx={"delegate_id": did, "from": "nanomuse"})
+            deadline = time.time() + wait_s
+            while time.time() < deadline:
+                time.sleep(2)
+                for m in get_messages(after=msg["id"], frm="assistant",
+                                      channel="delegate"):
+                    if (m.get("channel_ctx") or {}).get("delegate_id") == did:
+                        return self._json(200, {"ok": True, "answer": m["text"],
+                                                "attachments": m.get("attachments") or []})
+            return self._json(200, {"ok": False, "timeout": True})
 
         if u.path == "/api/channel/incoming":
             # 各平台 adapter 提交收到的用户消息（需 bearer token）
@@ -644,6 +1216,97 @@ class Handler(BaseHTTPRequestHandler):
                 add_message("user", text[:4000], channel="wecom",
                             channel_ctx={"user_id": from_user})
             return self._html(200, "success")
+
+        if u.path == "/api/fm/write":
+            if not check_session(self.headers.get("Cookie")):
+                return self._json(401, {"error": "login required"})
+            raw = self._body(limit=FM_MAX_WRITE + 65536)
+            if raw is None:
+                return self._json(413, {"error": "too large"})
+            try:
+                body = json.loads(raw.decode("utf-8"))
+            except (json.JSONDecodeError, UnicodeDecodeError):
+                return self._json(400, {"error": "bad json"})
+            p = _fm_resolve(body.get("path", ""))
+            content = body.get("content", "")
+            if not p or not isinstance(content, str) or p == FILES_ROOT:
+                return self._json(400, {"error": "bad path"})
+            if len(content.encode("utf-8")) > FM_MAX_WRITE:
+                return self._json(413, {"error": "too large"})
+            if os.path.isdir(p):
+                return self._json(400, {"error": "is a directory"})
+            try:
+                os.makedirs(os.path.dirname(p), exist_ok=True)
+                tmp = p + ".tmp-%s" % secrets.token_hex(4)
+                with open(tmp, "w", encoding="utf-8") as f:
+                    f.write(content)
+                os.replace(tmp, p)
+            except OSError as e:
+                return self._json(500, {"error": str(e)})
+            return self._json(200, {"ok": True})
+
+        if u.path == "/api/fm/mkdir":
+            if not check_session(self.headers.get("Cookie")):
+                return self._json(401, {"error": "login required"})
+            body = self._json_body()
+            p = _fm_resolve(body.get("path", ""))
+            if not p or p == FILES_ROOT:
+                return self._json(400, {"error": "bad path"})
+            try:
+                os.makedirs(p, exist_ok=True)
+            except OSError as e:
+                return self._json(500, {"error": str(e)})
+            return self._json(200, {"ok": True})
+
+        if u.path == "/api/fm/delete":
+            if not check_session(self.headers.get("Cookie")):
+                return self._json(401, {"error": "login required"})
+            body = self._json_body()
+            p = _fm_resolve(body.get("path", ""))
+            if not p or p == FILES_ROOT:
+                return self._json(400, {"error": "bad path"})
+            try:
+                if os.path.isdir(p) and not os.path.islink(p):
+                    if body.get("recursive"):
+                        shutil.rmtree(p)
+                    else:
+                        os.rmdir(p)
+                else:
+                    os.unlink(p)
+            except OSError as e:
+                return self._json(500, {"error": str(e)})
+            return self._json(200, {"ok": True})
+
+        if u.path == "/api/fm/upload":
+            if not check_session(self.headers.get("Cookie")):
+                return self._json(401, {"error": "login required"})
+            qq = parse_qs(u.query)
+            d = _fm_resolve(qq.get("dir", [""])[0])
+            if not d or not os.path.isdir(d):
+                return self._json(400, {"error": "bad dir"})
+            ctype = self.headers.get("Content-Type", "")
+            m = re.search(r"boundary=([^\s;]+)", ctype)
+            if not m:
+                return self._json(400, {"error": "not multipart"})
+            raw = self._body(limit=MAX_UPLOAD + 1024)
+            if raw is None:
+                return self._json(413, {"error": "too large"})
+            parts = parse_multipart(raw, m.group(1).encode())
+            if not parts:
+                return self._json(400, {"error": "no file"})
+            saved = []
+            for fname, _fctype, data in parts:
+                if len(data) > MAX_UPLOAD:
+                    continue
+                sname = safe_filename(fname)
+                dest = os.path.join(d, sname)
+                if os.path.exists(dest):
+                    base, ext = os.path.splitext(sname)
+                    dest = os.path.join(d, "%s_%s%s" % (base, secrets.token_hex(3), ext))
+                with open(dest, "wb") as f:
+                    f.write(data)
+                saved.append(os.path.basename(dest))
+            return self._json(200, {"ok": True, "saved": saved})
 
         return self._json(404, {"error": "not found"})
 
